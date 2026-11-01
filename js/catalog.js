@@ -62,6 +62,25 @@ function isFrench(e) {
     || /fra|french|fran[cç]ais/i.test(a['tvg-language'] || '');
 }
 
+// Domaines des diffuseurs eux-mêmes. Les listes publiques mélangent ces flux officiels avec des
+// rediffusions non autorisées (serveurs quelconques, souvent en http) : seuls les premiers sont
+// retenus dans le catalogue automatique. Les flux que l'utilisateur ajoute lui-même ne sont pas filtrés.
+export const OFFICIAL_DOMAINS = [
+  'arte.tv', 'artesimulcast.akamaized.net', 'arte-cdn.net',
+  'francetv.fr', 'france.tv', 'ftven.fr', 'francetvinfo.fr',
+  'france24.com', 'francemediasmonde.com', 'rfi.fr', 'tv5monde.com',
+  'lcp.fr', 'publicsenat.fr',
+  'bfmtv.com', 'nextradiotv.com', 'rmc-bfmtv.com',
+  'euronews.com', 'radiofrance.fr',
+];
+
+export function isOfficial(url) {
+  try {
+    const u = new URL(url);
+    return u.protocol === 'https:' && OFFICIAL_DOMAINS.some(d => u.hostname === d || u.hostname.endsWith('.' + d));
+  } catch { return false; }
+}
+
 function scoreEntry(e, base) {
   let s = base;
   if (/^https:/i.test(e.url)) s += 20; else s -= 40;
@@ -83,10 +102,11 @@ export function matchCatalog(entries) {
   const tnt = {};
   const usedUrls = new Set();
   const others = [];
+  const othersByKey = new Map();
   const seen = new Set();
 
   for (const e of entries) {
-    if (!/^https?:\/\//i.test(e.url)) continue;
+    if (!isOfficial(e.url)) continue;
     const k = channelKey(e.name);
     const t = tvgKey(e.tvgId);
     let num = byAlias.get(k) ?? byAlias.get(t);
@@ -107,10 +127,34 @@ export function matchCatalog(entries) {
     if (e.frOnly && !isFrench(e)) continue;
     if (seen.has(e.url)) continue;
     seen.add(e.url);
-    others.push({ name: e.name, url: e.url, group: e.group || 'Autres', logo: e.logo || '', src: e.src });
+    // Une même chaîne déclinée en plusieurs qualités devient une seule carte avec plusieurs sources.
+    const key = k || e.url;
+    let o = othersByKey.get(key);
+    if (!o) {
+      o = { name: displayName(e.name), url: e.url, urls: [], group: e.group || 'Autres', logo: e.logo || '', src: e.src };
+      othersByKey.set(key, o);
+      others.push(o);
+    }
+    o.urls.push({ url: e.url, q: qualityRank(e.name) });
+    if (!o.logo && e.logo) o.logo = e.logo;
   }
 
   for (const n of Object.keys(tnt)) tnt[n].sort((a, b) => b.score - a.score);
-  others.sort((a, b) => (/^https:/i.test(b.url) - /^https:/i.test(a.url)) || a.name.localeCompare(b.name, 'fr'));
+  for (const o of others) {
+    o.urls = o.urls.sort((a, b) => a.q - b.q).map(x => x.url);
+    o.url = o.urls[0];
+  }
+  others.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
   return { tnt, others: others.filter(o => !usedUrls.has(o.url)) };
+}
+
+/** « France 24 French (1080p) [Geo-blocked] » → « France 24 French ». */
+function displayName(name) {
+  return String(name || '').replace(/\(\d{3,4}p\)|\[[^\]]*\]/gi, ' ').replace(/\s+/g, ' ').trim() || name;
+}
+
+// Sur téléphone, le 720p est le meilleur compromis entre image et consommation de données.
+function qualityRank(name) {
+  const m = /\((\d{3,4})p\)/i.exec(name || '');
+  return ({ 720: 0, 1080: 1, 576: 2, 360: 4 })[m?.[1]] ?? 3;
 }

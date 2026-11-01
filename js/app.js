@@ -2,7 +2,7 @@ import { TNT, matchCatalog, normalize, channelKey } from './catalog.js';
 import { parseM3U, isHlsStream, nameFromUrl, toM3U } from './m3u.js';
 import * as store from './store.js';
 
-const APP_VERSION = '1.0.2';
+const APP_VERSION = '1.0.3';
 const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
 const DEFAULT_SOURCES = [
   { url: 'https://iptv-org.github.io/iptv/countries/fr.m3u', frOnly: false },
@@ -133,9 +133,10 @@ function sourcesLabel(n) {
 function streamItem(e, kind) {
   return {
     key: 'u:' + e.url, kind, name: e.name || nameFromUrl(e.url), logo: e.logo, group: e.group || 'Autres',
-    url: e.url, cands: expandCands([{ url: e.url, label: e.name, src: kind === 'mine' ? 'mon flux' : e.src }]),
+    url: e.url,
+    cands: expandCands((e.urls || [e.url]).map(url => ({ url, label: e.name, src: kind === 'mine' ? 'mon flux' : hostOf(url) }))),
     search: normalize(e.name) + ' ' + normalize(e.group),
-    sub: e.group || hostOf(e.url),
+    sub: e.urls?.length > 1 ? `${e.group || hostOf(e.url)} · ${e.urls.length} sources` : (e.group || hostOf(e.url)),
   };
 }
 
@@ -566,7 +567,7 @@ function armIdle() {
 function showNoStream(it) {
   $('#infoTitle').textContent = `${it.num} · ${it.name}`;
   $('#infoText').textContent = state.catalog
-    ? 'Aucun flux public autorisé n\'a été trouvé pour cette chaîne dans les listes du catalogue. Vous pouvez y associer votre propre adresse de flux, ou regarder la chaîne sur le site du diffuseur.'
+    ? 'Ce diffuseur ne publie pas de flux en accès libre : les seules adresses qui circulent pour cette chaîne sont des rediffusions non autorisées, écartées par l\'application. Regardez-la sur le site ou l\'application officielle, ou associez-y votre propre flux.'
     : 'Le catalogue n\'est pas encore chargé. Actualisez-le (bouton ↻ en haut) puis réessayez.';
   const a = $('#infoSite');
   if (it.site) { a.href = it.site; a.hidden = false; } else a.hidden = true;

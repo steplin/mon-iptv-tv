@@ -20,7 +20,7 @@ suivantes et y retrouve les chaînes par leur nom :
 - `https://iptv-org.github.io/iptv/languages/fra.m3u`
 - `https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8` (seules les chaînes françaises sont gardées)
 
-Les listes se modifient dans ⚙ « Sources et réglages ». Une chaîne dont le diffuseur ne publie pas de flux libre
+Seuls les flux **hébergés par les diffuseurs eux-mêmes** sont retenus (liste `OFFICIAL_DOMAINS` dans `js/catalog.js`) : ces listes contiennent aussi de nombreuses rediffusions non autorisées, sur des serveurs quelconques, qui sont écartées. Les listes se modifient dans ⚙ « Sources et réglages ». Une chaîne dont le diffuseur ne publie pas de flux libre
 (cas fréquent pour TF1, M6 et leurs chaînes sœurs) reste grisée : l'application ne contourne ni DRM, ni abonnement,
 ni restriction d'accès. On peut y associer son propre flux (bouton « Associer mon propre flux »).
 

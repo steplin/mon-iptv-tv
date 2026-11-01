@@ -2,7 +2,7 @@ import { TNT, matchCatalog, normalize, channelKey } from './catalog.js';
 import { parseM3U, isHlsStream, nameFromUrl, toM3U } from './m3u.js';
 import * as store from './store.js';
 
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.0.1';
 const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
 const DEFAULT_SOURCES = [
   { url: 'https://iptv-org.github.io/iptv/countries/fr.m3u', frOnly: false },
@@ -94,24 +94,46 @@ async function fetchText(url, ms = 25000) {
 
 /* ---------- Données affichées ---------- */
 
+// Dans une application https, Chrome bloque les flux http. Beaucoup de serveurs répondent aussi en https :
+// on essaie donc d'abord la version https des flux http, puis le flux http d'origine en dernier recours
+// (il reste utilisable avec « Ouvrir avec… »).
+function expandCands(cands) {
+  if (!isHttpsPage) return cands;
+  const secure = cands.filter(c => /^https:/i.test(c.url));
+  const insecure = cands.filter(c => !/^https:/i.test(c.url));
+  const known = new Set(secure.map(c => c.url));
+  const upgraded = [];
+  for (const c of insecure) {
+    const url = c.url.replace(/^http:/i, 'https:');
+    if (known.has(url)) continue;
+    known.add(url);
+    upgraded.push({ ...c, url, src: (c.src || hostOf(c.url)) + ' (https)' });
+  }
+  return [...secure, ...upgraded, ...insecure];
+}
+
 function tntItems() {
   const cat = state.catalog?.tnt || {};
   return TNT.map(ch => {
     const own = state.mine.filter(m => Number(m.tnt) === ch.num)
       .map(m => ({ url: m.url, label: m.name, src: 'mon flux' }));
-    const cands = [...own, ...(cat[ch.num] || [])];
+    const cands = expandCands([...own, ...(cat[ch.num] || [])]);
     return {
       key: 'tnt:' + ch.num, kind: 'tnt', num: ch.num, name: ch.name, site: ch.site,
       cands, search: normalize(ch.name) + ' ' + ch.aliases.join(' '),
-      sub: cands.length ? `${cands.length} source${cands.length > 1 ? 's' : ''}` : 'Aucun flux',
+      sub: sourcesLabel(own.length + (cat[ch.num] || []).length),
     };
   });
+}
+
+function sourcesLabel(n) {
+  return n ? `${n} source${n > 1 ? 's' : ''}` : 'Aucun flux';
 }
 
 function streamItem(e, kind) {
   return {
     key: 'u:' + e.url, kind, name: e.name || nameFromUrl(e.url), logo: e.logo, group: e.group || 'Autres',
-    url: e.url, cands: [{ url: e.url, label: e.name, src: kind === 'mine' ? 'mon flux' : e.src }],
+    url: e.url, cands: expandCands([{ url: e.url, label: e.name, src: kind === 'mine' ? 'mon flux' : e.src }]),
     search: normalize(e.name) + ' ' + normalize(e.group),
     sub: e.group || hostOf(e.url),
   };
@@ -403,6 +425,7 @@ function showMsg(html, kind = 'info') {
 
 async function startCandidate() {
   stopStream();
+  $('.video-wrap').classList.remove('failed');
   const token = state.token;
   const it = state.list[state.idx];
   const c = currentCandidate();
@@ -411,7 +434,7 @@ async function startCandidate() {
   showMsg('Chargement…');
 
   if (isHttpsPage && /^http:/i.test(c.url)) {
-    failCandidate('Flux en http non sécurisé : Chrome le bloque dans une application https. Essayez « Ouvrir avec… ».');
+    failCandidate('Flux http non sécurisé, bloqué par Chrome.');
     return;
   }
 
@@ -480,10 +503,14 @@ function failCandidate(reason) {
     return;
   }
   stopStream();
+  $('.video-wrap').classList.add('failed');
+  const lastIsHttp = /^http:/i.test(currentCandidate()?.url || '');
   showMsg([
-    el('strong', { text: 'Cette chaîne ne peut pas être lue ici.' }),
+    el('strong', { text: 'Cette chaîne ne peut pas être lue dans l\'application.' }),
     el('ul', {}, state.errors.map(e => el('li', { text: e }))),
-    el('p', { text: 'Essayez « Ouvrir avec… » (VLC par exemple), une autre chaîne, ou actualisez le catalogue plus tard.' }),
+    el('p', { text: lastIsHttp
+      ? 'Touchez « Ouvrir avec… » pour la regarder dans VLC (à installer depuis le Play Store si besoin).'
+      : 'Essayez « Ouvrir avec… » (VLC par exemple), une autre chaîne, ou actualisez le catalogue plus tard.' }),
   ], 'error');
 }
 

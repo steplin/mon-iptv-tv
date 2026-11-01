@@ -2,7 +2,7 @@ import { TNT, matchCatalog, normalize, channelKey, isOfficial } from './catalog.
 import { parseM3U, isHlsStream, nameFromUrl, toM3U } from './m3u.js';
 import * as store from './store.js';
 
-const APP_VERSION = '1.1.1';
+const APP_VERSION = '1.2.0';
 const CATALOG_FORMAT = 3;          // à augmenter quand les règles du catalogue changent
 const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
 const DEFAULT_SOURCES = [
@@ -84,6 +84,11 @@ function toast(msg) {
 
 function isSafeUrl(u) {
   try { const x = new URL(u); return x.protocol === 'https:' || x.protocol === 'http:'; } catch { return false; }
+}
+
+// Adresses de flux acceptées dans « Mes flux » : web, plus les formats que seul VLC lit.
+function isStreamUrl(u) {
+  try { return /^(https?|rtsp|rtmp|rtp|udp):$/.test(new URL(u).protocol); } catch { return false; }
 }
 
 function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } }
@@ -288,7 +293,7 @@ async function addMine(entries) {
   const known = new Set(state.mine.map(m => m.url));
   let added = 0;
   for (const e of entries) {
-    if (!isSafeUrl(e.url) || known.has(e.url)) continue;
+    if (!isStreamUrl(e.url) || known.has(e.url)) continue;
     known.add(e.url);
     state.mine.push({ name: (e.name || nameFromUrl(e.url)).slice(0, 120), url: e.url, group: (e.group || 'Mes flux').slice(0, 80),
       logo: e.logo || '', tnt: e.tnt ? Number(e.tnt) : null });
@@ -374,6 +379,13 @@ function openItem(items, idx) {
   if (!it.cands.length) { showNoStream(it); return; }
   state.list = items.filter(i => i.cands.length);
   state.idx = state.list.indexOf(it);
+  if (it.cands.every(c => !/^https?:/i.test(c.url))) {
+    // RTSP, UDP… (playlist Freebox par exemple) : aucun navigateur ne les lit, on passe directement à VLC.
+    state.cand = 0;
+    state.failed = false;
+    openExternal();
+    return;
+  }
   openPlayer();
   startItem();
 }
@@ -445,7 +457,7 @@ function showMsg(html, kind = 'info') {
   m.hidden = false;
 }
 
-async function startCandidate() {
+async function startCandidate(forceNative = false) {
   stopStream();
   $('.video-wrap').classList.remove('failed');
   state.failed = false;
@@ -454,8 +466,12 @@ async function startCandidate() {
   const c = currentCandidate();
   $('#pAlt').disabled = it.cands.length < 2;
   $('#pInfo').textContent = `Source ${state.cand + 1}/${it.cands.length} · ${c.src || hostOf(c.url)}`;
-  showMsg('Chargement…');
+  showMsg(forceNative ? 'Nouvel essai avec le lecteur intégré de Chrome…' : 'Chargement…');
 
+  if (!/^https?:/i.test(c.url)) {
+    failCandidate('Format ' + c.url.split(':')[0].toUpperCase() + ' : lisible seulement dans VLC.');
+    return;
+  }
   if (isHttpsPage && /^http:/i.test(c.url)) {
     failCandidate('Flux http non sécurisé, bloqué par Chrome.');
     return;
@@ -469,7 +485,7 @@ async function startCandidate() {
     if (token === state.token) failCandidate('Le flux ne répond pas (délai dépassé).');
   }, LOAD_TIMEOUT);
 
-  const Hls = looksNative ? null : await loadHls();
+  const Hls = looksNative || forceNative ? null : await loadHls();
   if (token !== state.token) return;
 
   if (Hls && Hls.isSupported()) {
@@ -484,6 +500,13 @@ async function startCandidate() {
     hls.on(Hls.Events.ERROR, (_, data) => {
       if (token !== state.token || !data.fatal) return;
       if (data.type === Hls.ErrorTypes.MEDIA_ERROR && !mediaRecovered) { mediaRecovered = true; hls.recoverMediaError(); return; }
+      // Serveur qui refuse les lectures depuis une page web (CORS) : le lecteur intégré de Chrome
+      // n'est pas soumis à cette règle, on lui confie le même flux.
+      const code = data.response?.code ?? data.networkDetails?.status;
+      if (data.type === Hls.ErrorTypes.NETWORK_ERROR && !code && video.canPlayType('application/vnd.apple.mpegurl')) {
+        startCandidate(true);
+        return;
+      }
       failCandidate(explainHlsError(data, Hls));
     });
     hls.loadSource(c.url);
@@ -665,7 +688,7 @@ function bind() {
     e.preventDefault();
     const f = new FormData(e.target);
     const url = String(f.get('url')).trim();
-    if (!isSafeUrl(url)) { setAddMsg('L\'adresse doit commencer par https:// (ou http://).', 'error'); return; }
+    if (!isStreamUrl(url)) { setAddMsg('L\'adresse doit commencer par https:// (ou http://, rtsp://…).', 'error'); return; }
     const n = await addMine([{ name: String(f.get('name')).trim(), url, group: String(f.get('group')).trim() || 'Mes flux', tnt: f.get('tnt') }]);
     if (!n) { setAddMsg('Ce flux est déjà dans vos flux.', 'error'); return; }
     e.target.reset();

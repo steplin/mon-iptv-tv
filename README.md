@@ -31,6 +31,13 @@ Raisons possibles d'un échec de lecture, affichées dans le lecteur :
 - **403 / 401** : accès refusé par le diffuseur (géo-restriction, jeton expiré) ;
 - **404** : adresse périmée → actualiser le catalogue.
 
+## Version fichier (sans installation)
+
+`MonIPTVTV-autonome.html` contient toute l'application dans un seul fichier, à ouvrir directement depuis le téléphone
+(Fichiers → Téléchargements → ouvrir avec Chrome). N'étant pas servi en https, il peut lire les flux en http et la
+playlist de la Freebox (sur le Wi-Fi de la maison). Il ne s'installe pas et ne se met pas à jour tout seul.
+Après une modification du code, le régénérer avec `python3 tools/build-standalone.py`.
+
 ## Publier avec GitHub Pages
 
 1. Le dépôt doit être **public** (GitHub Pages n'est pas disponible sur un dépôt privé avec un compte gratuit).

@@ -18,24 +18,39 @@ function openDb() {
 }
 
 export async function get(key) {
+  if (memory.has(key)) return memory.get(key);
   try {
     const db = await openDb();
-    return await new Promise((resolve, reject) => {
+    const v = await new Promise((resolve, reject) => {
       const req = db.transaction(STORE, 'readonly').objectStore(STORE).get(key);
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
     });
+    if (v !== undefined) return v;
+  } catch { /* IndexedDB indisponible */ }
+  try {
+    const v = localStorage.getItem('miptv.db.' + key);
+    return v == null ? undefined : JSON.parse(v);
   } catch { return undefined; }
 }
 
+// Quand IndexedDB est indisponible (fichier HTML ouvert depuis le téléphone, navigation privée…),
+// on se rabat sur localStorage, puis sur la mémoire pour la session en cours.
+const memory = new Map();
+
 export async function set(key, value) {
-  const db = await openDb();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readwrite');
-    tx.objectStore(STORE).put(value, key);
-    tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
-  });
+  memory.set(key, value);
+  try {
+    const db = await openDb();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, 'readwrite');
+      tx.objectStore(STORE).put(value, key);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  } catch {
+    try { localStorage.setItem('miptv.db.' + key, JSON.stringify(value)); } catch { /* mémoire seulement */ }
+  }
 }
 
 export function pref(key, fallback) {

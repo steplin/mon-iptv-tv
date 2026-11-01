@@ -3,7 +3,7 @@
 //   arrivent au prochain lancement), copie en cache pour fonctionner hors connexion.
 // - Moteur hls.js : cache d'abord.
 // - Flux vidéo et playlists : jamais interceptés.
-const VERSION = '1.1.1';
+const VERSION = '1.2.0';
 const CACHE = 'mon-iptv-tv-' + VERSION;
 const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
 const SHELL = [

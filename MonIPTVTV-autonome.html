@@ -1,0 +1,1517 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Lecteur IPTV personnel : chaînes de la TNT française et vos propres flux M3U/M3U8.">
+  <title>Mon IPTV TV (fichier)</title>
+    <link rel="icon" href="data:image/png;base64,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" type="image/png">
+  <style>
+:root {
+  --bg: #0b1020;
+  --surface: #141b2e;
+  --surface-2: #1d2742;
+  --line: #2a3557;
+  --text: #e9edf7;
+  --muted: #8d97b3;
+  --accent: #ffb547;
+  --accent-ink: #1d1300;
+  --ok: #3ddc97;
+  --danger: #ff6b6b;
+  --radius: 14px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body {
+  font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, input, select, .btn { font: inherit; color: inherit; }
+button, .btn {
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 14px; cursor: pointer; text-decoration: none; display: inline-flex;
+  align-items: center; justify-content: center; gap: 6px; min-height: 44px;
+}
+button:active, .btn:active { transform: scale(.97); }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+button.danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, var(--line)); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.icon-btn { width: 44px; height: 44px; padding: 0; border-radius: 50%; background: transparent; border: 0; }
+.icon-btn svg { width: 24px; height: 24px; }
+.icon-btn:hover { background: var(--surface-2); }
+
+input, select {
+  width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+  padding: 11px 12px; min-height: 44px;
+}
+input:focus, select:focus { border-color: var(--accent); outline: none; }
+
+/* En-tête */
+.top {
+  position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 8px 4px 16px; background: var(--bg);
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand img { border-radius: 8px; }
+.brand h1 { font-size: 19px; margin: 0; letter-spacing: .2px; }
+.top-actions { display: flex; }
+
+.toolbar { position: sticky; top: 56px; z-index: 4; background: var(--bg); padding: 4px 16px 8px; }
+.tabs { display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; scrollbar-width: none; }
+.tabs button { flex: 1 0 auto; min-height: 38px; padding: 6px 14px; border-radius: 999px; background: var(--surface); color: var(--muted); }
+.tabs button[aria-selected="true"] { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 600; }
+.subbar { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.status { flex: 1; margin: 0; color: var(--muted); font-size: 13px; min-height: 18px; }
+#groupFilter { width: auto; max-width: 48%; min-height: 36px; padding: 6px 10px; font-size: 13px; }
+
+/* Grille de chaînes */
+.grid {
+  display: grid; gap: 10px; padding: 4px 16px 32px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.card {
+  position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  display: flex; min-height: 76px;
+}
+.card-main {
+  flex: 1; display: flex; align-items: center; gap: 10px; text-align: left; justify-content: flex-start;
+  background: transparent; border: 0; border-radius: var(--radius); padding: 10px 40px 10px 10px; min-width: 0;
+}
+.card.empty .card-main { opacity: .55; }
+.badge {
+  flex: 0 0 auto; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 16%, var(--surface-2)); color: var(--accent);
+  font-weight: 700; font-size: 16px; overflow: hidden;
+}
+.badge img { width: 100%; height: 100%; object-fit: contain; background: #fff1; }
+.card-text { min-width: 0; display: flex; flex-direction: column; }
+.card-text strong { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-text small { color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); margin-right: 5px; vertical-align: 1px; }
+.card.empty .dot { background: var(--muted); }
+.card .star, .card .del {
+  position: absolute; right: 2px; width: 38px; height: 38px; min-height: 0; padding: 0; border: 0;
+  background: transparent; color: var(--muted); border-radius: 50%;
+}
+.card .star { top: 2px; }
+.card .del { bottom: 2px; }
+.card .star svg, .card .del svg { width: 19px; height: 19px; }
+.card .star.on { color: var(--accent); }
+.more { grid-column: 1 / -1; }
+.empty-state { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 40px 12px; }
+.empty-state button { margin-top: 12px; }
+
+/* Lecteur */
+.player {
+  position: fixed; inset: 0; z-index: 20; background: #000; display: flex; flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.player-bar { display: flex; align-items: center; gap: 6px; padding: 6px; background: #000c; }
+.p-title { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.p-title strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p-title span { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player .star.on { color: var(--accent); }
+.video-wrap { position: relative; flex: 1; display: grid; place-items: center; min-height: 0; }
+video { width: 100%; height: 100%; max-height: 100%; background: #000; object-fit: contain; }
+.video-wrap.failed video { visibility: hidden; }
+.p-msg {
+  position: absolute; left: 12px; right: 12px; bottom: 64px; margin: auto; max-width: 560px;
+  background: #141b2ef2; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 14px;
+}
+.p-msg.error { border-color: color-mix(in srgb, var(--danger) 60%, var(--line)); }
+.p-msg ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); font-size: 13px; }
+.player-actions { display: flex; gap: 8px; padding: 8px; overflow-x: auto; background: #000c; }
+.player-actions button { flex: 0 0 auto; background: #ffffff14; border-color: #ffffff22; }
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .player-bar, .player-actions { position: absolute; left: 0; right: 0; z-index: 2; transition: opacity .3s; }
+  .player-bar { top: 0; }
+  .player-actions { bottom: 0; }
+  .player.idle .player-bar, .player.idle .player-actions { opacity: 0; pointer-events: none; }
+}
+
+/* Feuilles (dialogues) */
+dialog.sheet {
+  width: min(560px, 100vw); max-width: 100vw; max-height: 92vh; margin: auto auto 0; padding: 0 0 16px;
+  background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 20px 20px 0 0;
+  overflow-y: auto;
+}
+@media (min-width: 640px) { dialog.sheet { margin: auto; border-radius: 20px; } }
+dialog::backdrop { background: #0009; }
+.sheet-head {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 8px 6px 18px; background: var(--surface);
+}
+.sheet-head h2 { margin: 0; font-size: 18px; }
+.card-form { display: flex; flex-direction: column; gap: 10px; margin: 8px 14px; padding: 14px; background: var(--surface-2); border-radius: var(--radius); }
+.card-form h3 { margin: 0; font-size: 15px; }
+.card-form label { display: flex; flex-direction: column; gap: 5px; font-size: 13px; color: var(--muted); }
+.card-form p { margin: 0; }
+.hint { color: var(--muted); font-size: 13px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row > * { flex: 1 1 auto; }
+.or { text-align: center; color: var(--muted); font-size: 13px; }
+.file-btn {
+  position: relative; align-items: center; justify-content: center; text-align: center; min-height: 44px;
+  border: 1px dashed var(--line); border-radius: 10px; padding: 10px; color: var(--text) !important; cursor: pointer;
+}
+.file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.form-msg { margin: 6px 18px 0; font-size: 14px; min-height: 20px; }
+.form-msg.ok { color: var(--ok); }
+.form-msg.error { color: var(--danger); }
+.inline-form { display: flex; gap: 8px; }
+.inline-form button { flex: 0 0 auto; }
+.source-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.source-list li { display: flex; align-items: center; gap: 8px; background: var(--bg); border-radius: 10px; padding: 6px 6px 6px 10px; }
+.source-list .src-text { flex: 1; min-width: 0; font-size: 13px; }
+.source-list .src-text span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.source-list .src-text small { color: var(--muted); }
+.source-list .src-text small.bad { color: var(--danger); }
+.source-list button { width: 38px; height: 38px; min-height: 0; padding: 0; border: 0; background: transparent; color: var(--muted); }
+.source-list svg { width: 18px; height: 18px; }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+  z-index: 40; background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 999px;
+  font-size: 14px; max-width: calc(100vw - 32px); box-shadow: 0 8px 24px #0008;
+}
+
+.spin svg { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (min-width: 900px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+}
+</style>
+  
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4 5.3 5.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star-f" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z" fill="currentColor"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <header class="top">
+    <div class="brand">
+      <img src="data:image/png;base64,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" alt="" width="30" height="30">
+      <h1>Mon IPTV TV</h1>
+    </div>
+    <div class="top-actions">
+      <button id="btnRefresh" class="icon-btn" type="button" aria-label="Actualiser le catalogue"><svg><use href="#i-refresh"/></svg></button>
+      <button id="btnAdd" class="icon-btn" type="button" aria-label="Ajouter un flux ou une playlist"><svg><use href="#i-plus"/></svg></button>
+      <button id="btnSettings" class="icon-btn" type="button" aria-label="Sources et réglages"><svg><use href="#i-gear"/></svg></button>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Rechercher une chaîne ou un numéro…" autocomplete="off" enterkeyhint="search" aria-label="Rechercher">
+    <nav class="tabs" role="tablist" aria-label="Catégories">
+      <button type="button" role="tab" data-tab="tnt" aria-selected="true">TNT</button>
+      <button type="button" role="tab" data-tab="plus" aria-selected="false">Plus</button>
+      <button type="button" role="tab" data-tab="mine" aria-selected="false">Mes flux</button>
+      <button type="button" role="tab" data-tab="fav" aria-selected="false">Favoris</button>
+    </nav>
+    <div class="subbar">
+      <p id="status" class="status" aria-live="polite"></p>
+      <select id="groupFilter" aria-label="Filtrer par groupe" hidden></select>
+    </div>
+  </div>
+
+  <main id="list" class="grid" aria-live="polite"></main>
+
+  <!-- Lecteur -->
+  <section id="player" class="player" hidden aria-label="Lecteur vidéo">
+    <div class="player-bar">
+      <button id="pClose" class="icon-btn" type="button" aria-label="Fermer le lecteur"><svg><use href="#i-back"/></svg></button>
+      <div class="p-title">
+        <strong id="pName"></strong>
+        <span id="pInfo"></span>
+      </div>
+      <button id="pFav" class="icon-btn star" type="button" aria-label="Ajouter aux favoris"><svg><use href="#i-star"/></svg></button>
+    </div>
+    <div class="video-wrap">
+      <video id="video" playsinline controls autoplay preload="auto"></video>
+      <div id="pMsg" class="p-msg" hidden></div>
+    </div>
+    <div class="player-actions">
+      <button id="pPrev" type="button">◀ Préc.</button>
+      <button id="pNext" type="button">Suiv. ▶</button>
+      <button id="pAlt" type="button">Autre source</button>
+      <button id="pExt" type="button">Ouvrir dans VLC</button>
+      <button id="pCopy" type="button">Copier le lien</button>
+    </div>
+  </section>
+
+  <!-- Ajouter -->
+  <dialog id="dlgAdd" class="sheet" aria-labelledby="addTitle">
+    <form method="dialog" class="sheet-head">
+      <h2 id="addTitle">Ajouter</h2>
+      <button class="icon-btn" value="close" aria-label="Fermer"><svg><use href="#i-x"/></svg></button>
+    </form>
+
+    <form id="formStream" class="card-form" autocomplete="off">
+      <h3>Un flux M3U8</h3>
+      <label>Nom de la chaîne<input name="name" required placeholder="Ex. : Ma chaîne locale"></label>
+      <label>Adresse du flux<input name="url" type="url" required inputmode="url" placeholder="https://…/playlist.m3u8"></label>
+      <label>Groupe (facultatif)<input name="group" placeholder="Ex. : Bretagne"></label>
+      <label>Associer à une chaîne TNT (facultatif)
+        <select name="tnt" id="tntSelect"><option value="">Non</option></select>
+      </label>
+      <button class="primary" type="submit">Ajouter le flux</button>
+    </form>
+
+    <form id="formPlaylist" class="card-form" autocomplete="off">
+      <h3>Une playlist M3U</h3>
+      <label>Adresse de la playlist<input name="url" type="url" inputmode="url" placeholder="https://…/liste.m3u"></label>
+      <button class="primary" type="submit">Importer depuis l'adresse</button>
+      <div class="or">ou</div>
+      <label class="file-btn">Choisir un fichier .m3u sur le téléphone
+        <input id="fileInput" type="file" accept=".m3u,.m3u8,audio/x-mpegurl,application/x-mpegurl,application/vnd.apple.mpegurl,text/plain">
+      </label>
+    </form>
+    <p id="addMsg" class="form-msg" aria-live="polite"></p>
+  </dialog>
+
+  <!-- Réglages -->
+  <dialog id="dlgSettings" class="sheet" aria-labelledby="setTitle">
+    <form method="dialog" class="sheet-head">
+      <h2 id="setTitle">Sources et réglages</h2>
+      <button class="icon-btn" value="close" aria-label="Fermer"><svg><use href="#i-x"/></svg></button>
+    </form>
+
+    <section class="card-form">
+      <h3>Listes publiques du catalogue</h3>
+      <p class="hint">L'application y cherche les flux des chaînes TNT et des autres chaînes françaises, en ne gardant que ceux hébergés par les diffuseurs eux-mêmes (Arte, France Télévisions, BFM, France 24, TV5Monde…). Elle ne contient elle-même aucun flux.</p>
+      <ul id="sourceList" class="source-list"></ul>
+      <form id="formSource" class="inline-form">
+        <input name="url" type="url" inputmode="url" required placeholder="https://…/liste.m3u" aria-label="Adresse d'une liste publique">
+        <button type="submit">Ajouter</button>
+      </form>
+      <div class="row">
+        <button id="btnRefresh2" class="primary" type="button">Actualiser le catalogue</button>
+        <button id="btnResetSources" type="button">Sources par défaut</button>
+      </div>
+      <p id="catalogInfo" class="hint"></p>
+    </section>
+
+    <section class="card-form">
+      <h3>Mes flux</h3>
+      <div class="row">
+        <button id="btnExport" type="button">Exporter en .m3u</button>
+        <button id="btnClearMine" class="danger" type="button">Tout supprimer</button>
+      </div>
+    </section>
+
+    <section class="card-form">
+      <h3>À propos</h3>
+      <p class="hint">Mon IPTV TV lit uniquement des flux diffusés publiquement. Elle ne contourne ni DRM, ni abonnement, ni restriction d'accès : une chaîne dont le diffuseur ne publie pas de flux libre ne peut pas être lue ici. Vos ajouts et favoris restent sur ce téléphone.</p>
+      <p class="hint">Version <span id="appVersion"></span></p>
+    </section>
+  </dialog>
+
+  <!-- Chaîne sans flux -->
+  <dialog id="dlgInfo" class="sheet small" aria-labelledby="infoTitle">
+    <form method="dialog" class="sheet-head">
+      <h2 id="infoTitle"></h2>
+      <button class="icon-btn" value="close" aria-label="Fermer"><svg><use href="#i-x"/></svg></button>
+    </form>
+    <div class="card-form">
+      <p id="infoText"></p>
+      <div class="row">
+        <button id="infoAdd" class="primary" type="button">Associer mon propre flux</button>
+        <a id="infoSite" class="btn" target="_blank" rel="noopener">Site officiel</a>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+<script type="module">
+const __mod_catalog = (() => {
+// Catalogue des 25 chaînes nationales gratuites de la TNT (numérotation en vigueur depuis le 6 juin 2025,
+// RMC Life ayant remplacé Chérie 25 le 1er octobre 2025).
+// Aucune adresse de flux n'est écrite en dur : les flux sont retrouvés dans les listes publiques
+// configurées dans les réglages, puis associés aux chaînes par leur nom ou leur identifiant tvg-id.
+
+const TNT = [
+  { num: 1,  name: 'TF1',              aliases: ['tf1'],                                   site: 'https://www.tf1.fr/' },
+  { num: 2,  name: 'France 2',         aliases: ['france2'],                               site: 'https://www.france.tv/' },
+  { num: 3,  name: 'France 3',         aliases: ['france3'], regional: 'france3',          site: 'https://www.france.tv/' },
+  { num: 4,  name: 'France 4',         aliases: ['france4'],                               site: 'https://www.france.tv/' },
+  { num: 5,  name: 'France 5',         aliases: ['france5'],                               site: 'https://www.france.tv/' },
+  { num: 6,  name: 'M6',               aliases: ['m6'],                                    site: 'https://www.m6.fr/' },
+  { num: 7,  name: 'Arte',             aliases: ['arte', 'artefrance', 'artefr', 'artefrancais'], site: 'https://www.arte.tv/fr/direct/' },
+  { num: 8,  name: 'LCP / Public Sénat', aliases: ['lcp', 'lcpan', 'lcpassembleenationale', 'publicsenat', 'lcppublicsenat', 'publicsenatlcp'], site: 'https://lcp.fr/' },
+  { num: 9,  name: 'W9',               aliases: ['w9'],                                    site: 'https://www.m6.fr/' },
+  { num: 10, name: 'TMC',              aliases: ['tmc'],                                   site: 'https://www.tf1.fr/' },
+  { num: 11, name: 'TFX',              aliases: ['tfx'],                                   site: 'https://www.tf1.fr/' },
+  { num: 12, name: 'Gulli',            aliases: ['gulli'],                                 site: 'https://www.gulli.fr/' },
+  { num: 13, name: 'BFM TV',           aliases: ['bfmtv'],                                 site: 'https://www.bfmtv.com/' },
+  { num: 14, name: 'CNews',            aliases: ['cnews'],                                 site: 'https://www.cnews.fr/' },
+  { num: 15, name: 'LCI',              aliases: ['lci', 'lcilachaineinfo'],                site: 'https://www.tf1.fr/' },
+  { num: 16, name: 'franceinfo',       aliases: ['franceinfo', 'franceinfotv', 'franceinfochaine'], site: 'https://www.francetvinfo.fr/' },
+  { num: 17, name: 'CStar',            aliases: ['cstar'],                                 site: 'https://www.canalplus.com/' },
+  { num: 18, name: 'T18',              aliases: ['t18'] },
+  { num: 19, name: 'NOVO19',           aliases: ['novo19'] },
+  { num: 20, name: 'TF1 Séries Films', aliases: ['tf1seriesfilms', 'tf1seriefilms'],      site: 'https://www.tf1.fr/' },
+  { num: 21, name: "L'Équipe",         aliases: ['lequipe', 'lequipetv'],                  site: 'https://www.lequipe.fr/' },
+  { num: 22, name: '6ter',             aliases: ['6ter'],                                  site: 'https://www.m6.fr/' },
+  { num: 23, name: 'RMC Story',        aliases: ['rmcstory'],                              site: 'https://www.rmcbfmplay.com/' },
+  { num: 24, name: 'RMC Découverte',   aliases: ['rmcdecouverte'],                         site: 'https://www.rmcbfmplay.com/' },
+  { num: 25, name: 'RMC Life',         aliases: ['rmclife', 'cherie25'],                   site: 'https://www.rmcbfmplay.com/' },
+];
+
+/** Minuscules, sans accents ni ponctuation : « L'Équipe » → « lequipe ». */
+function normalize(s) {
+  return String(s || '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+/** Nom de chaîne comparable : retire préfixes pays, mentions entre () ou [], suffixes de qualité. */
+function channelKey(name) {
+  let s = String(name || '')
+    .replace(/^\s*(fr|fra|france)\s*[:|\-]\s*/i, '')
+    .replace(/\([^)]*\)|\[[^\]]*\]/g, ' ');
+  s = normalize(s);
+  for (let i = 0; i < 3; i++) s = s.replace(/(fhd|uhd|hd|sd|4k|hevc)$/, '');
+  return s;
+}
+
+/** Identifiant tvg-id comparable : « TF1SeriesFilms.fr@SD » → « tf1seriesfilms ». */
+function tvgKey(id) {
+  if (!id) return '';
+  return normalize(String(id).split('@')[0].split('.')[0]);
+}
+
+function isFrench(e) {
+  const a = e.attrs || {};
+  return /\.fr(@|$)/i.test(e.tvgId || '')
+    || /fran[cç]|french/i.test(e.group || '')
+    || /\bfr\b/i.test(a['tvg-country'] || '')
+    || /fra|french|fran[cç]ais/i.test(a['tvg-language'] || '');
+}
+
+// Domaines des diffuseurs eux-mêmes. Les listes publiques mélangent ces flux officiels avec des
+// rediffusions non autorisées (serveurs quelconques, souvent en http) : seuls les premiers sont
+// retenus dans le catalogue automatique. Les flux que l'utilisateur ajoute lui-même ne sont pas filtrés.
+const OFFICIAL_DOMAINS = [
+  'arte.tv', 'artesimulcast.akamaized.net', 'arte-cdn.net',
+  'francetv.fr', 'france.tv', 'ftven.fr', 'francetvinfo.fr',
+  'france24.com', 'francemediasmonde.com', 'rfi.fr', 'tv5monde.com',
+  'lcp.fr', 'publicsenat.fr',
+  'bfmtv.com', 'nextradiotv.com', 'rmc-bfmtv.com',
+  'euronews.com', 'radiofrance.fr',
+];
+
+function isOfficial(url) {
+  try {
+    const u = new URL(url);
+    return u.protocol === 'https:' && OFFICIAL_DOMAINS.some(d => u.hostname === d || u.hostname.endsWith('.' + d));
+  } catch { return false; }
+}
+
+function scoreEntry(e, base) {
+  let s = base;
+  if (/^https:/i.test(e.url)) s += 20; else s -= 40;
+  if (/not 24\/7/i.test(e.name)) s -= 10;
+  if (/geo-?blocked/i.test(e.name)) s -= 5;
+  if (e.needsHeaders) s -= 15;
+  return s;
+}
+
+/**
+ * Associe les entrées des listes publiques aux 25 chaînes TNT.
+ * @param {Array} entries entrées M3U ({name, url, tvgId, group, logo, src, frOnly, needsHeaders})
+ * @returns {{tnt: Object<number, Array>, others: Array}}
+ */
+function matchCatalog(entries) {
+  const byAlias = new Map();
+  for (const ch of TNT) for (const a of ch.aliases) byAlias.set(a, ch.num);
+
+  const tnt = {};
+  const usedUrls = new Set();
+  const others = [];
+  const othersByKey = new Map();
+  const seen = new Set();
+
+  for (const e of entries) {
+    if (!(e.trusted ? /^https:/i.test(e.url) : isOfficial(e.url))) continue;
+    const k = channelKey(e.name);
+    const t = tvgKey(e.tvgId);
+    let num = byAlias.get(k) ?? byAlias.get(t);
+    let base = 100;
+    if (num == null) {
+      const reg = TNT.find(ch => ch.regional && (k.startsWith(ch.regional) || t.startsWith(ch.regional)));
+      // « France 3 Bretagne » etc. : variante régionale acceptée en seconde position.
+      if (reg && /^france3[a-z]/.test(k || t)) { num = reg.num; base = 40; }
+    }
+    if (num != null) {
+      (tnt[num] ||= []);
+      if (!tnt[num].some(c => c.url === e.url)) {
+        tnt[num].push({ url: e.url, label: e.name, src: e.src, trusted: !!e.trusted, score: scoreEntry(e, base) });
+      }
+      usedUrls.add(e.url);
+      continue;
+    }
+    if (e.frOnly && !isFrench(e)) continue;
+    if (seen.has(e.url)) continue;
+    seen.add(e.url);
+    // Une même chaîne déclinée en plusieurs qualités devient une seule carte avec plusieurs sources.
+    const key = k || e.url;
+    let o = othersByKey.get(key);
+    if (!o) {
+      o = { name: displayName(e.name), url: e.url, urls: [], group: e.group || 'Autres', logo: e.logo || '', src: e.src };
+      othersByKey.set(key, o);
+      others.push(o);
+    }
+    o.urls.push({ url: e.url, q: qualityRank(e.name) });
+    if (!o.logo && e.logo) o.logo = e.logo;
+  }
+
+  for (const n of Object.keys(tnt)) tnt[n].sort((a, b) => b.score - a.score);
+  for (const o of others) {
+    o.urls = o.urls.sort((a, b) => a.q - b.q).map(x => x.url);
+    o.url = o.urls[0];
+  }
+  others.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+  return { tnt, others: others.filter(o => !usedUrls.has(o.url)) };
+}
+
+/** « France 24 French (1080p) [Geo-blocked] » → « France 24 French ». */
+function displayName(name) {
+  return String(name || '').replace(/\(\d{3,4}p\)|\[[^\]]*\]/gi, ' ').replace(/\s+/g, ' ').trim() || name;
+}
+
+// Sur téléphone, le 720p est le meilleur compromis entre image et consommation de données.
+function qualityRank(name) {
+  const m = /\((\d{3,4})p\)/i.exec(name || '');
+  return ({ 720: 0, 1080: 1, 576: 2, 360: 4 })[m?.[1]] ?? 3;
+}
+
+return { TNT, normalize, channelKey, tvgKey, OFFICIAL_DOMAINS, isOfficial, matchCatalog };
+})();
+const __mod_m3u = (() => {
+// Lecture des playlists M3U / M3U8 (format étendu #EXTINF).
+
+/** Vrai si le texte est un flux HLS (playlist média ou maître) plutôt qu'une liste de chaînes. */
+function isHlsStream(text) {
+  return /#EXT-X-(STREAM-INF|TARGETDURATION|MEDIA-SEQUENCE|VERSION)/i.test(text);
+}
+
+function splitExtinf(line) {
+  // La virgule qui sépare les attributs du titre est la première hors guillemets.
+  let inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') inQuote = !inQuote;
+    else if (ch === ',' && !inQuote) return [line.slice(0, i), line.slice(i + 1)];
+  }
+  return [line, ''];
+}
+
+/**
+ * @param {string} text contenu de la playlist
+ * @returns {Array<{name:string,url:string,tvgId:string,group:string,logo:string,attrs:Object,needsHeaders:boolean}>}
+ */
+function parseM3U(text) {
+  const out = [];
+  let cur = null;
+  let pendingHeaders = false;
+  const lines = String(text || '').replace(/^﻿/, '').split(/\r?\n/);
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) continue;
+
+    if (/^#EXTINF/i.test(line)) {
+      const [head, title] = splitExtinf(line);
+      const attrs = {};
+      head.replace(/([\w-]+)="([^"]*)"/g, (_, k, v) => { attrs[k.toLowerCase()] = v; return ''; });
+      cur = { attrs, name: title.trim() || attrs['tvg-name'] || '', group: attrs['group-title'] || '', needsHeaders: pendingHeaders };
+      pendingHeaders = false;
+      continue;
+    }
+    if (/^#EXTGRP:/i.test(line)) { if (cur && !cur.group) cur.group = line.slice(8).trim(); continue; }
+    if (/^#EXTVLCOPT:http-(referrer|user-agent|origin)/i.test(line) || /^#KODIPROP/i.test(line)) {
+      if (cur) cur.needsHeaders = true; else pendingHeaders = true;
+      continue;
+    }
+    if (line.startsWith('#')) continue;
+
+    // Ligne d'adresse : on retire d'éventuels paramètres Kodi « |User-Agent=... »
+    let url = line;
+    let needsHeaders = false;
+    const pipe = url.indexOf('|');
+    if (pipe > 0) { url = url.slice(0, pipe); needsHeaders = true; }
+    if (!/^(https?|rtsp|rtmp|rtp|udp):\/\//i.test(url)) { cur = null; continue; }
+
+    const e = cur || { attrs: {}, name: '', group: '', needsHeaders: false };
+    out.push({
+      name: (e.name || nameFromUrl(url)).trim(),
+      url,
+      tvgId: e.attrs['tvg-id'] || '',
+      group: e.group,
+      logo: e.attrs['tvg-logo'] || '',
+      attrs: e.attrs,
+      needsHeaders: e.needsHeaders || needsHeaders,
+    });
+    cur = null;
+  }
+  return out;
+}
+
+function nameFromUrl(url) {
+  try {
+    const u = new URL(url);
+    const file = decodeURIComponent(u.pathname.split('/').filter(Boolean).pop() || '');
+    const base = file.replace(/\.(m3u8?|mp4|ts)$/i, '');
+    return base && !/^(index|playlist|master|live|chunklist)$/i.test(base) ? base : u.hostname;
+  } catch { return url; }
+}
+
+/** Construit un fichier M3U à partir d'une liste de flux. */
+function toM3U(items) {
+  const esc = s => String(s || '').replace(/"/g, "'").replace(/[\r\n]+/g, ' ');
+  const lines = ['#EXTM3U'];
+  for (const it of items) {
+    lines.push(`#EXTINF:-1 tvg-logo="${esc(it.logo)}" group-title="${esc(it.group)}",${esc(it.name)}`);
+    lines.push(it.url);
+  }
+  return lines.join('\n') + '\n';
+}
+
+return { isHlsStream, parseM3U, nameFromUrl, toM3U };
+})();
+const __mod_store = (() => {
+// Stockage local : IndexedDB pour les gros volumes (catalogue, mes flux),
+// localStorage pour les petits réglages. Tout reste sur le téléphone.
+
+const DB_NAME = 'mon-iptv-tv';
+const STORE = 'kv';
+let dbPromise = null;
+
+function openDb() {
+  if (!dbPromise) {
+    dbPromise = new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => req.result.createObjectStore(STORE);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  return dbPromise;
+}
+
+async function get(key) {
+  if (memory.has(key)) return memory.get(key);
+  try {
+    const db = await openDb();
+    const v = await new Promise((resolve, reject) => {
+      const req = db.transaction(STORE, 'readonly').objectStore(STORE).get(key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+    if (v !== undefined) return v;
+  } catch { /* IndexedDB indisponible */ }
+  try {
+    const v = localStorage.getItem('miptv.db.' + key);
+    return v == null ? undefined : JSON.parse(v);
+  } catch { return undefined; }
+}
+
+// Quand IndexedDB est indisponible (fichier HTML ouvert depuis le téléphone, navigation privée…),
+// on se rabat sur localStorage, puis sur la mémoire pour la session en cours.
+const memory = new Map();
+
+async function set(key, value) {
+  memory.set(key, value);
+  try {
+    const db = await openDb();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, 'readwrite');
+      tx.objectStore(STORE).put(value, key);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  } catch {
+    try { localStorage.setItem('miptv.db.' + key, JSON.stringify(value)); } catch { /* mémoire seulement */ }
+  }
+}
+
+function pref(key, fallback) {
+  try {
+    const v = localStorage.getItem('miptv.' + key);
+    return v == null ? fallback : JSON.parse(v);
+  } catch { return fallback; }
+}
+
+function setPref(key, value) {
+  try { localStorage.setItem('miptv.' + key, JSON.stringify(value)); } catch { /* stockage indisponible */ }
+}
+
+return { get, set, pref, setPref };
+})();
+const { TNT, matchCatalog, normalize, channelKey, isOfficial } = __mod_catalog;
+const { parseM3U, isHlsStream, nameFromUrl, toM3U } = __mod_m3u;
+const store = __mod_store;
+
+const APP_VERSION = '1.2.0';
+const CATALOG_FORMAT = 3;          // à augmenter quand les règles du catalogue changent
+const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
+const DEFAULT_SOURCES = [
+  { url: 'https://iptv-org.github.io/iptv/countries/fr.m3u', frOnly: false },
+  { url: 'https://iptv-org.github.io/iptv/languages/fra.m3u', frOnly: false },
+  { url: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8', frOnly: true },
+  // Chaînes gratuites officielles des plateformes (financées par la publicité) : toutes leurs
+  // entrées sont des flux de la plateforme, la liste est donc retenue en entier (« trusted »).
+  { url: 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr_rakuten.m3u', trusted: true, label: 'Rakuten TV' },
+  { url: 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr_pluto.m3u', trusted: true, label: 'Pluto TV' },
+  { url: 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr_samsung.m3u', trusted: true, label: 'Samsung TV Plus' },
+  { url: 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr_bfm.m3u', trusted: true, label: 'BFM régions' },
+];
+const SOURCES_VERSION = 2;
+const MAX_AGE = 12 * 3600 * 1000;  // catalogue actualisé automatiquement au-delà de 12 h
+const PAGE = 240;                  // cartes affichées avant « Afficher plus »
+const LOAD_TIMEOUT = 20000;        // délai avant de passer à la source suivante
+
+const $ = (s, r = document) => r.querySelector(s);
+
+// Sources enregistrées : on ajoute les nouvelles sources par défaut apparues avec une mise à jour.
+function loadSources() {
+  const saved = store.pref('sources', null);
+  if (!saved) { store.setPref('sourcesVersion', SOURCES_VERSION); return DEFAULT_SOURCES.map(s => ({ ...s })); }
+  if (store.pref('sourcesVersion', 1) < SOURCES_VERSION) {
+    for (const d of DEFAULT_SOURCES) if (!saved.some(s => s.url === d.url)) saved.push({ ...d });
+    store.setPref('sources', saved);
+    store.setPref('sourcesVersion', SOURCES_VERSION);
+  }
+  return saved;
+}
+const isHttpsPage = location.protocol === 'https:';
+
+const state = {
+  tab: store.pref('tab', 'tnt'),
+  query: '',
+  group: '',
+  limit: PAGE,
+  catalog: null,
+  mine: [],
+  favs: new Set(store.pref('favs', [])),
+  sources: loadSources(),
+  refreshing: false,
+  // lecture
+  list: [], idx: 0, cand: 0, hls: null, token: 0, timer: 0, errors: [],
+};
+
+/* ---------- Utilitaires ---------- */
+
+function el(tag, props = {}, ...children) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') n.className = v;
+    else if (k === 'text') n.textContent = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of children.flat()) if (c != null) n.append(c);
+  return n;
+}
+
+function icon(id) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  use.setAttribute('href', '#' + id);
+  svg.append(use);
+  return svg;
+}
+
+let toastTimer = 0;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.hidden = true; }, 3200);
+}
+
+function isSafeUrl(u) {
+  try { const x = new URL(u); return x.protocol === 'https:' || x.protocol === 'http:'; } catch { return false; }
+}
+
+// Adresses de flux acceptées dans « Mes flux » : web, plus les formats que seul VLC lit.
+function isStreamUrl(u) {
+  try { return /^(https?|rtsp|rtmp|rtp|udp):$/.test(new URL(u).protocol); } catch { return false; }
+}
+
+function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } }
+
+function since(ts) {
+  if (!ts) return 'jamais';
+  const m = Math.round((Date.now() - ts) / 60000);
+  if (m < 1) return "à l'instant";
+  if (m < 60) return `il y a ${m} min`;
+  const h = Math.round(m / 60);
+  if (h < 48) return `il y a ${h} h`;
+  return `le ${new Date(ts).toLocaleDateString('fr-FR')}`;
+}
+
+async function fetchText(url, ms = 25000) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), ms);
+  try {
+    const res = await fetch(url, { signal: ctl.signal, cache: 'no-store' });
+    if (!res.ok) throw new Error(`réponse ${res.status}`);
+    return await res.text();
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('délai dépassé');
+    if (e instanceof TypeError) throw new Error('accès refusé par le serveur (CORS) ou réseau indisponible');
+    throw e;
+  } finally { clearTimeout(t); }
+}
+
+/* ---------- Données affichées ---------- */
+
+// Dans une application https, Chrome bloque les flux http. Beaucoup de serveurs répondent aussi en https :
+// on essaie donc d'abord la version https des flux http, puis le flux http d'origine en dernier recours
+// (il reste utilisable avec « Ouvrir avec… »).
+function expandCands(cands) {
+  if (!isHttpsPage) return cands;
+  const secure = cands.filter(c => /^https:/i.test(c.url));
+  const insecure = cands.filter(c => !/^https:/i.test(c.url));
+  const known = new Set(secure.map(c => c.url));
+  const upgraded = [];
+  for (const c of insecure) {
+    const url = c.url.replace(/^http:/i, 'https:');
+    if (known.has(url)) continue;
+    known.add(url);
+    upgraded.push({ ...c, url, orig: c.url, src: (c.src || hostOf(c.url)) + ' (https)' });
+  }
+  return [...secure, ...upgraded, ...insecure];
+}
+
+function tntItems() {
+  const cat = state.catalog?.tnt || {};
+  return TNT.map(ch => {
+    const own = state.mine.filter(m => Number(m.tnt) === ch.num)
+      .map(m => ({ url: m.url, label: m.name, src: 'mon flux' }));
+    const pub = (cat[ch.num] || []).filter(c => c.trusted || isOfficial(c.url));
+    const cands = expandCands([...own, ...pub]);
+    return {
+      key: 'tnt:' + ch.num, kind: 'tnt', num: ch.num, name: ch.name, site: ch.site,
+      cands, search: normalize(ch.name) + ' ' + ch.aliases.join(' '),
+      sub: sourcesLabel(own.length + pub.length),
+    };
+  });
+}
+
+function sourcesLabel(n) {
+  return n ? `${n} source${n > 1 ? 's' : ''}` : 'Aucun flux';
+}
+
+function streamItem(e, kind) {
+  return {
+    key: 'u:' + e.url, kind, name: e.name || nameFromUrl(e.url), logo: e.logo, group: e.group || 'Autres',
+    url: e.url,
+    cands: expandCands((e.urls || [e.url]).map(url => ({ url, label: e.name, src: kind === 'mine' ? 'mon flux' : hostOf(url) }))),
+    search: normalize(e.name) + ' ' + normalize(e.group),
+    sub: e.urls?.length > 1 ? `${e.group || hostOf(e.url)} · ${e.urls.length} sources` : (e.group || hostOf(e.url)),
+  };
+}
+
+function itemsFor(tab) {
+  if (tab === 'tnt') return tntItems();
+  if (tab === 'plus') return (state.catalog?.others || []).map(e => streamItem(e, 'plus'));
+  if (tab === 'mine') return state.mine.map(e => streamItem(e, 'mine'));
+  const all = [...tntItems(), ...state.mine.map(e => streamItem(e, 'mine')),
+    ...(state.catalog?.others || []).map(e => streamItem(e, 'plus'))];
+  const seen = new Set();
+  return all.filter(i => state.favs.has(i.key) && !seen.has(i.key) && seen.add(i.key));
+}
+
+function visibleItems() {
+  let items = itemsFor(state.tab);
+  if (state.group && (state.tab === 'plus' || state.tab === 'mine')) items = items.filter(i => i.group === state.group);
+  const q = state.query.trim();
+  if (q) {
+    const nq = normalize(q);
+    items = items.filter(i => (i.num && String(i.num) === q) || i.search.includes(nq) || channelKey(i.name).includes(nq));
+  }
+  return items;
+}
+
+/* ---------- Rendu ---------- */
+
+function render() {
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === state.tab)));
+  renderGroups();
+  const items = visibleItems();
+  const list = $('#list');
+  list.replaceChildren();
+
+  if (!items.length) list.append(emptyState());
+  for (const it of items.slice(0, state.limit)) list.append(card(it, items));
+  if (items.length > state.limit) {
+    list.append(el('button', { class: 'more', type: 'button', text: `Afficher plus (${items.length - state.limit} restantes)`,
+      onclick: () => { state.limit += PAGE; render(); } }));
+  }
+  renderStatus(items);
+}
+
+function emptyState() {
+  const box = el('div', { class: 'empty-state' });
+  if (state.query) box.append(el('p', { text: 'Aucune chaîne ne correspond à la recherche.' }));
+  else if (state.tab === 'fav') box.append(el('p', { text: 'Touchez l\'étoile d\'une chaîne pour la retrouver ici.' }));
+  else if (state.tab === 'mine') {
+    box.append(el('p', { text: 'Ajoutez un flux M3U8 ou importez une playlist M3U.' }),
+      el('button', { class: 'primary', type: 'button', text: 'Ajouter', onclick: openAdd }));
+  } else if (state.tab === 'plus') {
+    box.append(el('p', { text: state.refreshing ? 'Chargement des listes publiques…' : 'Aucune chaîne supplémentaire pour le moment.' }));
+    if (!state.refreshing) box.append(el('button', { type: 'button', text: 'Actualiser le catalogue', onclick: () => refreshCatalog(true) }));
+  }
+  return box;
+}
+
+function card(it, items) {
+  const fav = state.favs.has(it.key);
+  const badge = el('span', { class: 'badge' });
+  if (it.num) badge.textContent = it.num;
+  else if (it.logo && isSafeUrl(it.logo)) {
+    const img = el('img', { src: it.logo, alt: '', loading: 'lazy', referrerpolicy: 'no-referrer' });
+    img.addEventListener('error', () => { img.remove(); badge.textContent = initials(it.name); });
+    badge.append(img);
+  } else badge.textContent = initials(it.name);
+
+  const main = el('button', { class: 'card-main', type: 'button', 'aria-label': `Regarder ${it.name}`,
+    onclick: () => openItem(items, items.indexOf(it)) },
+  badge,
+  el('span', { class: 'card-text' },
+    el('strong', { text: it.name }),
+    el('small', {}, el('span', { class: 'dot' }), it.sub)));
+
+  const star = el('button', { class: 'star' + (fav ? ' on' : ''), type: 'button',
+    'aria-label': fav ? `Retirer ${it.name} des favoris` : `Ajouter ${it.name} aux favoris`,
+    onclick: () => { toggleFav(it.key); render(); } }, icon(fav ? 'i-star-f' : 'i-star'));
+
+  const c = el('div', { class: 'card' + (it.cands.length ? '' : ' empty') }, main, star);
+  if (it.kind === 'mine') {
+    c.append(el('button', { class: 'del', type: 'button', 'aria-label': `Supprimer ${it.name}`,
+      onclick: () => removeMine(it.url) }, icon('i-x')));
+  }
+  return c;
+}
+
+function initials(name) {
+  const w = String(name || '?').replace(/[^\p{L}\p{N} ]/gu, ' ').trim().split(/\s+/);
+  return ((w[0]?.[0] || '?') + (w[1]?.[0] || '')).toUpperCase();
+}
+
+function renderGroups() {
+  const sel = $('#groupFilter');
+  const show = state.tab === 'plus' || state.tab === 'mine';
+  sel.hidden = !show;
+  if (!show) return;
+  const groups = [...new Set(itemsFor(state.tab).map(i => i.group))].sort((a, b) => a.localeCompare(b, 'fr'));
+  if (state.group && !groups.includes(state.group)) state.group = '';
+  sel.replaceChildren(el('option', { value: '', text: 'Tous les groupes' }),
+    ...groups.map(g => el('option', { value: g, text: g })));
+  sel.value = state.group;
+  sel.hidden = groups.length < 2;
+}
+
+function renderStatus(items) {
+  const st = $('#status');
+  if (state.refreshing) { st.textContent = 'Actualisation du catalogue…'; return; }
+  const when = since(state.catalog?.updatedAt);
+  if (state.tab === 'tnt') {
+    const ok = tntItems().filter(i => i.cands.length).length;
+    st.textContent = state.catalog ? `${ok}/25 chaînes avec un flux · catalogue ${when}` : 'Catalogue pas encore chargé';
+  } else {
+    st.textContent = `${items.length} chaîne${items.length > 1 ? 's' : ''}` + (state.tab === 'plus' ? ` · catalogue ${when}` : '');
+  }
+}
+
+/* ---------- Favoris et mes flux ---------- */
+
+function toggleFav(key) {
+  if (state.favs.has(key)) state.favs.delete(key); else state.favs.add(key);
+  store.setPref('favs', [...state.favs]);
+}
+
+async function saveMine() {
+  await store.set('mine', state.mine);
+}
+
+async function addMine(entries) {
+  const known = new Set(state.mine.map(m => m.url));
+  let added = 0;
+  for (const e of entries) {
+    if (!isStreamUrl(e.url) || known.has(e.url)) continue;
+    known.add(e.url);
+    state.mine.push({ name: (e.name || nameFromUrl(e.url)).slice(0, 120), url: e.url, group: (e.group || 'Mes flux').slice(0, 80),
+      logo: e.logo || '', tnt: e.tnt ? Number(e.tnt) : null });
+    added++;
+  }
+  await saveMine();
+  return added;
+}
+
+async function removeMine(url) {
+  const m = state.mine.find(x => x.url === url);
+  if (!m || !confirm(`Supprimer « ${m.name} » de vos flux ?`)) return;
+  state.mine = state.mine.filter(x => x.url !== url);
+  state.favs.delete('u:' + url);
+  store.setPref('favs', [...state.favs]);
+  await saveMine();
+  render();
+}
+
+/* ---------- Catalogue public ---------- */
+
+async function refreshCatalog(manual) {
+  if (state.refreshing) return;
+  if (!navigator.onLine) { if (manual) toast('Pas de connexion internet'); return; }
+  state.refreshing = true;
+  $('#btnRefresh').classList.add('spin');
+  render();
+
+  const results = await Promise.allSettled(state.sources.map(s => fetchText(s.url)));
+  const report = [];
+  const entries = [];
+  results.forEach((r, i) => {
+    const s = state.sources[i];
+    if (r.status === 'fulfilled') {
+      const list = parseM3U(r.value);
+      report.push({ url: s.url, ok: true, count: list.length });
+      for (const e of list) entries.push({ ...e, group: e.group || s.label || '', src: s.label || hostOf(s.url), frOnly: s.frOnly, trusted: !!s.trusted });
+    } else {
+      report.push({ url: s.url, ok: false, error: r.reason?.message || 'erreur' });
+    }
+  });
+
+  state.refreshing = false;
+  $('#btnRefresh').classList.remove('spin');
+
+  if (!entries.length) {
+    if (state.catalog) state.catalog.report = report;
+    render();
+    renderSettings();
+    if (manual || !state.catalog) toast('Aucune liste publique n\'a pu être chargée');
+    return;
+  }
+  const cat = matchCatalog(entries);
+  state.catalog = { ...cat, updatedAt: Date.now(), report, format: CATALOG_FORMAT };
+  await store.set('catalog', state.catalog);
+  render();
+  renderSettings();
+  if (manual) toast(`Catalogue à jour : ${Object.keys(cat.tnt).length}/25 chaînes TNT trouvées`);
+}
+
+/* ---------- Lecteur ---------- */
+
+let hlsPromise = null;
+function loadHls() {
+  if (window.Hls) return Promise.resolve(window.Hls);
+  if (!hlsPromise) {
+    hlsPromise = new Promise(resolve => {
+      const s = document.createElement('script');
+      s.src = HLS_URL;
+      s.crossOrigin = 'anonymous';
+      const t = setTimeout(() => resolve(null), 10000);
+      s.onload = () => { clearTimeout(t); resolve(window.Hls || null); };
+      s.onerror = () => { clearTimeout(t); hlsPromise = null; resolve(null); };
+      document.head.append(s);
+    });
+  }
+  return hlsPromise;
+}
+
+function openItem(items, idx) {
+  const it = items[idx];
+  if (!it) return;
+  if (!it.cands.length) { showNoStream(it); return; }
+  state.list = items.filter(i => i.cands.length);
+  state.idx = state.list.indexOf(it);
+  if (it.cands.every(c => !/^https?:/i.test(c.url))) {
+    // RTSP, UDP… (playlist Freebox par exemple) : aucun navigateur ne les lit, on passe directement à VLC.
+    state.cand = 0;
+    state.failed = false;
+    openExternal();
+    return;
+  }
+  openPlayer();
+  startItem();
+}
+
+let closeWatcher = null;
+function openPlayer() {
+  const p = $('#player');
+  if (!p.hidden) return;
+  p.hidden = false;
+  document.body.style.overflow = 'hidden';
+  // Bouton « retour » d'Android : ferme le lecteur au lieu de quitter l'application.
+  if ('CloseWatcher' in window) {
+    try { closeWatcher = new CloseWatcher(); closeWatcher.onclose = () => closePlayer(true); } catch { closeWatcher = null; }
+  }
+  if (!closeWatcher) history.pushState({ player: 1 }, '');
+  $('#pClose').focus();
+  armIdle();
+}
+
+function closePlayer(fromBack) {
+  const p = $('#player');
+  if (p.hidden) return;
+  stopStream();
+  p.hidden = true;
+  document.body.style.overflow = '';
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  if (closeWatcher) { const w = closeWatcher; closeWatcher = null; if (!fromBack) w.destroy(); }
+  else if (!fromBack && history.state?.player) history.back();
+  render();
+}
+
+window.addEventListener('popstate', () => { if (!$('#player').hidden && !closeWatcher) closePlayer(true); });
+
+function stopStream() {
+  state.token++;
+  clearTimeout(state.timer);
+  if (state.hls) { try { state.hls.destroy(); } catch { /* déjà détruit */ } state.hls = null; }
+  const v = $('#video');
+  v.onerror = v.onloadedmetadata = v.onplaying = null;
+  v.removeAttribute('src');
+  v.load();
+}
+
+function startItem() {
+  state.cand = 0;
+  state.errors = [];
+  const it = state.list[state.idx];
+  const fav = state.favs.has(it.key);
+  $('#pName').textContent = (it.num ? it.num + ' · ' : '') + it.name;
+  const pf = $('#pFav');
+  pf.classList.toggle('on', fav);
+  pf.replaceChildren(icon(fav ? 'i-star-f' : 'i-star'));
+  pf.setAttribute('aria-label', fav ? 'Retirer des favoris' : 'Ajouter aux favoris');
+  $('#pPrev').disabled = state.list.length < 2;
+  $('#pNext').disabled = state.list.length < 2;
+  startCandidate();
+}
+
+function currentCandidate() {
+  const it = state.list[state.idx];
+  return it?.cands[state.cand];
+}
+
+function showMsg(html, kind = 'info') {
+  const m = $('#pMsg');
+  if (!html) { m.hidden = true; return; }
+  m.className = 'p-msg ' + kind;
+  m.replaceChildren(...(Array.isArray(html) ? html : [html]));
+  m.hidden = false;
+}
+
+async function startCandidate(forceNative = false) {
+  stopStream();
+  $('.video-wrap').classList.remove('failed');
+  state.failed = false;
+  const token = state.token;
+  const it = state.list[state.idx];
+  const c = currentCandidate();
+  $('#pAlt').disabled = it.cands.length < 2;
+  $('#pInfo').textContent = `Source ${state.cand + 1}/${it.cands.length} · ${c.src || hostOf(c.url)}`;
+  showMsg(forceNative ? 'Nouvel essai avec le lecteur intégré de Chrome…' : 'Chargement…');
+
+  if (!/^https?:/i.test(c.url)) {
+    failCandidate('Format ' + c.url.split(':')[0].toUpperCase() + ' : lisible seulement dans VLC.');
+    return;
+  }
+  if (isHttpsPage && /^http:/i.test(c.url)) {
+    failCandidate('Flux http non sécurisé, bloqué par Chrome.');
+    return;
+  }
+
+  const video = $('#video');
+  const looksNative = /\.(mp4|webm|ogv|mp3|aac|m4a)(\?|#|$)/i.test(c.url);
+  const ready = () => { if (token === state.token) { clearTimeout(state.timer); } };
+  video.onplaying = () => { if (token === state.token) { clearTimeout(state.timer); showMsg(null); } };
+  state.timer = setTimeout(() => {
+    if (token === state.token) failCandidate('Le flux ne répond pas (délai dépassé).');
+  }, LOAD_TIMEOUT);
+
+  const Hls = looksNative || forceNative ? null : await loadHls();
+  if (token !== state.token) return;
+
+  if (Hls && Hls.isSupported()) {
+    const hls = new Hls({ enableWorker: true, backBufferLength: 30, manifestLoadingMaxRetry: 1, levelLoadingMaxRetry: 2 });
+    state.hls = hls;
+    let mediaRecovered = false;
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      if (token !== state.token) return;
+      ready();
+      video.play().catch(() => showMsg('Touchez ▶ pour lancer la lecture.'));
+    });
+    hls.on(Hls.Events.ERROR, (_, data) => {
+      if (token !== state.token || !data.fatal) return;
+      if (data.type === Hls.ErrorTypes.MEDIA_ERROR && !mediaRecovered) { mediaRecovered = true; hls.recoverMediaError(); return; }
+      // Serveur qui refuse les lectures depuis une page web (CORS) : le lecteur intégré de Chrome
+      // n'est pas soumis à cette règle, on lui confie le même flux.
+      const code = data.response?.code ?? data.networkDetails?.status;
+      if (data.type === Hls.ErrorTypes.NETWORK_ERROR && !code && video.canPlayType('application/vnd.apple.mpegurl')) {
+        startCandidate(true);
+        return;
+      }
+      failCandidate(explainHlsError(data, Hls));
+    });
+    hls.loadSource(c.url);
+    hls.attachMedia(video);
+    return;
+  }
+
+  // Lecture native (fichiers vidéo, ou HLS si hls.js est indisponible)
+  if (!looksNative && !video.canPlayType('application/vnd.apple.mpegurl')) {
+    failCandidate('Le moteur de lecture n\'a pas pu être chargé (connexion ?) et ce navigateur ne lit pas le HLS seul.');
+    return;
+  }
+  video.onloadedmetadata = () => { ready(); video.play().catch(() => showMsg('Touchez ▶ pour lancer la lecture.')); };
+  video.onerror = () => { if (token === state.token) failCandidate('Lecture impossible : format non pris en charge, accès refusé ou blocage CORS.'); };
+  video.src = c.url;
+}
+
+function explainHlsError(data, Hls) {
+  const code = data.response?.code ?? data.networkDetails?.status;
+  const d = String(data.details || '');
+  if (/keySystem|emeKey|drm/i.test(d)) return 'Flux protégé par DRM : lecture impossible ici.';
+  if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+    if (code === 401 || code === 403) return 'Accès refusé par le diffuseur (restriction géographique, abonnement ou lien expiré).';
+    if (code === 404 || code === 410) return 'Flux introuvable : l\'adresse n\'est plus valide.';
+    if (!code) return 'Serveur injoignable ou accès bloqué depuis une page web (CORS).';
+    return `Erreur réseau (${code}).`;
+  }
+  if (/manifestParsing/i.test(d)) return 'Cette adresse n\'est pas un flux vidéo HLS valide.';
+  if (data.type === Hls.ErrorTypes.MEDIA_ERROR) return 'Format vidéo non pris en charge par ce téléphone.';
+  return 'Lecture impossible (' + d + ').';
+}
+
+function failCandidate(reason) {
+  const it = state.list[state.idx];
+  state.errors.push(`Source ${state.cand + 1} : ${reason}`);
+  if (state.cand + 1 < it.cands.length) {
+    state.cand++;
+    showMsg(reason + ' Essai de la source suivante…', 'error');
+    setTimeout(() => startCandidate(), 700);
+    return;
+  }
+  stopStream();
+  $('.video-wrap').classList.add('failed');
+  state.failed = true;
+  showMsg([
+    el('strong', { text: 'Cette chaîne ne peut pas être lue dans l\'application.' }),
+    el('ul', {}, state.errors.map(e => el('li', { text: e }))),
+    el('p', { text: 'Le lecteur VLC n\'a pas ces restrictions de navigateur : il lit souvent ces flux sans problème.' }),
+    el('div', { class: 'row' },
+      el('button', { class: 'primary', type: 'button', text: '▶ Regarder dans VLC', onclick: openExternal })),
+  ], 'error');
+}
+
+// Adresse envoyée à VLC : le flux d'origine (pas la variante https essayée par l'application).
+// Après un échec complet, on prend la meilleure source d'origine plutôt que la dernière essayée.
+function externalUrl() {
+  const it = state.list[state.idx];
+  if (!it) return null;
+  const c = state.failed ? (it.cands.find(x => !x.orig) || it.cands[0]) : currentCandidate();
+  return c ? (c.orig || c.url) : null;
+}
+
+function step(delta) {
+  if (state.list.length < 2) return;
+  state.idx = (state.idx + delta + state.list.length) % state.list.length;
+  startItem();
+}
+
+function openExternal() {
+  const url = externalUrl();
+  if (!url) return;
+  if (/android/i.test(navigator.userAgent)) {
+    // Ouvre directement VLC ; s'il n'est pas installé, Chrome affiche sa page du Play Store.
+    const u = new URL(url);
+    const store = encodeURIComponent('https://play.google.com/store/apps/details?id=org.videolan.vlc');
+    location.href = `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=${u.protocol.slice(0, -1)};`
+      + `package=org.videolan.vlc;type=video/*;S.title=${encodeURIComponent($('#pName').textContent)};`
+      + `S.browser_fallback_url=${store};end`;
+  } else {
+    window.open(url, '_blank', 'noopener');
+  }
+}
+
+async function copyLink() {
+  const url = externalUrl();
+  if (!url) return;
+  try { await navigator.clipboard.writeText(url); toast('Lien du flux copié'); }
+  catch { prompt('Lien du flux :', url); }
+}
+
+// En paysage, les commandes s'effacent après quelques secondes sans toucher l'écran.
+let idleTimer = 0;
+function armIdle() {
+  const p = $('#player');
+  p.classList.remove('idle');
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => { if (!$('#video').paused) p.classList.add('idle'); }, 4000);
+}
+
+/* ---------- Dialogues ---------- */
+
+function showNoStream(it) {
+  $('#infoTitle').textContent = `${it.num} · ${it.name}`;
+  $('#infoText').textContent = state.catalog
+    ? 'Ce diffuseur ne publie pas de flux en accès libre : les seules adresses qui circulent pour cette chaîne sont des rediffusions non autorisées, écartées par l\'application. Regardez-la sur le site ou l\'application officielle, ou associez-y votre propre flux.'
+    : 'Le catalogue n\'est pas encore chargé. Actualisez-le (bouton ↻ en haut) puis réessayez.';
+  const a = $('#infoSite');
+  if (it.site) { a.href = it.site; a.hidden = false; } else a.hidden = true;
+  $('#infoAdd').onclick = () => { $('#dlgInfo').close(); openAdd(it.num); };
+  $('#dlgInfo').showModal();
+}
+
+function openAdd(tntNum) {
+  const sel = $('#tntSelect');
+  if (sel.options.length < 2) for (const ch of TNT) sel.append(el('option', { value: ch.num, text: `${ch.num} · ${ch.name}` }));
+  sel.value = typeof tntNum === 'number' ? String(tntNum) : '';
+  setAddMsg('');
+  $('#dlgAdd').showModal();
+}
+
+function setAddMsg(text, kind = '') {
+  const m = $('#addMsg');
+  m.textContent = text;
+  m.className = 'form-msg ' + kind;
+}
+
+async function importText(text, label) {
+  if (isHlsStream(text)) return null; // c'est un flux, pas une liste
+  const entries = parseM3U(text).map(e => ({ ...e, group: e.group || label }));
+  if (!entries.length) {
+    if (/^\s*(rtsp|rtp|udp|rtmp):\/\//im.test(text)) throw new Error('les chaînes de cette liste utilisent un format (RTSP, RTP, UDP ou RTMP) qu\'aucun navigateur ne sait lire : ouvrez-la dans VLC');
+    throw new Error('Aucune chaîne trouvée dans ce fichier.');
+  }
+  return addMine(entries);
+}
+
+function renderSettings() {
+  $('#appVersion').textContent = APP_VERSION;
+  const ul = $('#sourceList');
+  const report = state.catalog?.report || [];
+  ul.replaceChildren(...state.sources.map((s, i) => {
+    const r = report.find(x => x.url === s.url);
+    const info = r ? (r.ok ? el('small', { text: `${r.count} entrées` }) : el('small', { class: 'bad', text: r.error })) : el('small', { text: 'pas encore chargée' });
+    return el('li', {},
+      el('div', { class: 'src-text' }, el('span', { text: s.url }), info),
+      el('button', { type: 'button', 'aria-label': 'Retirer cette source', onclick: () => {
+        state.sources.splice(i, 1); store.setPref('sources', state.sources); renderSettings();
+      } }, icon('i-x')));
+  }));
+  $('#catalogInfo').textContent = state.catalog
+    ? `Dernière actualisation ${since(state.catalog.updatedAt)} · ${Object.keys(state.catalog.tnt).length}/25 chaînes TNT · ${state.catalog.others.length} autres chaînes`
+    : 'Catalogue pas encore chargé.';
+}
+
+/* ---------- Évènements ---------- */
+
+function bind() {
+  document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
+    state.tab = b.dataset.tab; state.group = ''; state.limit = PAGE;
+    store.setPref('tab', state.tab);
+    render();
+    window.scrollTo({ top: 0 });
+  }));
+
+  let qTimer = 0;
+  $('#search').addEventListener('input', e => {
+    clearTimeout(qTimer);
+    qTimer = setTimeout(() => { state.query = e.target.value; state.limit = PAGE; render(); }, 150);
+  });
+  $('#groupFilter').addEventListener('change', e => { state.group = e.target.value; state.limit = PAGE; render(); });
+
+  $('#btnRefresh').addEventListener('click', () => refreshCatalog(true));
+  $('#btnRefresh2').addEventListener('click', () => refreshCatalog(true));
+  $('#btnAdd').addEventListener('click', () => openAdd());
+  $('#btnSettings').addEventListener('click', () => { renderSettings(); $('#dlgSettings').showModal(); });
+
+  // Ajout d'un flux unique
+  $('#formStream').addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const url = String(f.get('url')).trim();
+    if (!isStreamUrl(url)) { setAddMsg('L\'adresse doit commencer par https:// (ou http://, rtsp://…).', 'error'); return; }
+    const n = await addMine([{ name: String(f.get('name')).trim(), url, group: String(f.get('group')).trim() || 'Mes flux', tnt: f.get('tnt') }]);
+    if (!n) { setAddMsg('Ce flux est déjà dans vos flux.', 'error'); return; }
+    e.target.reset();
+    setAddMsg('Flux ajouté.', 'ok');
+    toast('Flux ajouté');
+    if (/^http:/i.test(url) && isHttpsPage) toast('Attention : un flux http ne pourra s\'ouvrir qu\'avec « Ouvrir avec… »');
+    render();
+  });
+
+  // Import de playlist par adresse
+  $('#formPlaylist').addEventListener('submit', async e => {
+    e.preventDefault();
+    const url = String(new FormData(e.target).get('url') || '').trim();
+    if (!isSafeUrl(url)) { setAddMsg('Indiquez l\'adresse complète de la playlist.', 'error'); return; }
+    if (isHttpsPage && /^http:/i.test(url)) {
+      setAddMsg(/freebox/i.test(url)
+        ? 'La playlist de la Freebox ne peut pas être lue ici : elle est en http et ses chaînes utilisent le format RTSP, qu\'aucun navigateur ne lit. Ouvrez-la directement dans VLC, ou utilisez l\'application Free TV.'
+        : 'Adresse en http : Chrome bloque son téléchargement dans une application https. Ouvrez l\'adresse dans Chrome pour télécharger le fichier, puis utilisez « Choisir un fichier ».', 'error');
+      return;
+    }
+    setAddMsg('Téléchargement de la playlist…');
+    try {
+      const text = await fetchText(url);
+      const n = await importText(text, hostOf(url));
+      if (n === null) {
+        await addMine([{ name: nameFromUrl(url), url, group: 'Mes flux' }]);
+        setAddMsg('Cette adresse est un flux vidéo : il a été ajouté à vos flux.', 'ok');
+      } else setAddMsg(`${n} flux ajouté${n > 1 ? 's' : ''} à « Mes flux ».`, 'ok');
+      e.target.reset();
+      state.tab = 'mine'; render();
+    } catch (err) {
+      setAddMsg(`Import impossible : ${err.message}. Si le serveur refuse l'accès (CORS), téléchargez le fichier puis utilisez « Choisir un fichier ».`, 'error');
+    }
+  });
+
+  // Import de playlist par fichier
+  $('#fileInput').addEventListener('change', async e => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const n = await importText(text, file.name.replace(/\.[^.]+$/, ''));
+      if (n === null) throw new Error('ce fichier est un flux vidéo et non une liste de chaînes');
+      setAddMsg(`${n} flux ajouté${n > 1 ? 's' : ''} depuis « ${file.name} ».`, 'ok');
+      state.tab = 'mine'; render();
+    } catch (err) { setAddMsg(`Import impossible : ${err.message}`, 'error'); }
+    e.target.value = '';
+  });
+
+  // Sources du catalogue
+  $('#formSource').addEventListener('submit', e => {
+    e.preventDefault();
+    const url = String(new FormData(e.target).get('url')).trim();
+    if (!isSafeUrl(url) || state.sources.some(s => s.url === url)) return;
+    state.sources.push({ url, frOnly: false });
+    store.setPref('sources', state.sources);
+    e.target.reset();
+    renderSettings();
+    toast('Source ajoutée : actualisez le catalogue');
+  });
+  $('#btnResetSources').addEventListener('click', () => {
+    state.sources = DEFAULT_SOURCES.map(s => ({ ...s }));
+    store.setPref('sources', state.sources);
+    renderSettings();
+  });
+
+  $('#btnExport').addEventListener('click', () => {
+    if (!state.mine.length) { toast('Aucun flux à exporter'); return; }
+    const blob = new Blob([toM3U(state.mine)], { type: 'audio/x-mpegurl' });
+    const a = el('a', { href: URL.createObjectURL(blob), download: 'mes-flux.m3u' });
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  });
+  $('#btnClearMine').addEventListener('click', async () => {
+    if (!state.mine.length || !confirm(`Supprimer vos ${state.mine.length} flux ?`)) return;
+    for (const m of state.mine) state.favs.delete('u:' + m.url);
+    store.setPref('favs', [...state.favs]);
+    state.mine = [];
+    await saveMine();
+    render();
+    toast('Vos flux ont été supprimés');
+  });
+
+  // Lecteur
+  $('#pClose').addEventListener('click', () => closePlayer(false));
+  $('#pPrev').addEventListener('click', () => step(-1));
+  $('#pNext').addEventListener('click', () => step(1));
+  $('#pAlt').addEventListener('click', () => {
+    const it = state.list[state.idx];
+    if (it.cands.length < 2) return;
+    state.cand = (state.cand + 1) % it.cands.length;
+    startCandidate();
+  });
+  $('#pExt').addEventListener('click', openExternal);
+  $('#pCopy').addEventListener('click', copyLink);
+  $('#pFav').addEventListener('click', () => {
+    const it = state.list[state.idx];
+    toggleFav(it.key);
+    const on = state.favs.has(it.key);
+    $('#pFav').classList.toggle('on', on);
+    $('#pFav').replaceChildren(icon(on ? 'i-star-f' : 'i-star'));
+    toast(on ? 'Ajoutée aux favoris' : 'Retirée des favoris');
+  });
+  const player = $('#player');
+  ['pointermove', 'pointerdown', 'keydown'].forEach(ev => player.addEventListener(ev, armIdle));
+  $('#video').addEventListener('play', armIdle);
+
+  // Télécommande / clavier (Android TV) : haut-bas = chaîne, Échap = fermer
+  document.addEventListener('keydown', e => {
+    if ($('#player').hidden) return;
+    if (['ArrowUp', 'ChannelUp', 'PageUp'].includes(e.key)) { e.preventDefault(); step(-1); }
+    else if (['ArrowDown', 'ChannelDown', 'PageDown'].includes(e.key)) { e.preventDefault(); step(1); }
+    else if (e.key === 'Escape' || e.key === 'GoBack' || e.key === 'BrowserBack') { e.preventDefault(); closePlayer(false); }
+  });
+
+  window.addEventListener('online', () => {
+    if (!state.catalog || Date.now() - state.catalog.updatedAt > MAX_AGE) refreshCatalog(false);
+  });
+}
+
+/* ---------- Démarrage ---------- */
+
+// Catalogue enregistré par une version précédente : on retire tout de suite les flux non officiels
+// (pour que l'affichage soit juste dès l'ouverture) et on le reconstruit en arrière-plan.
+function upgradeCatalog(cat) {
+  if (cat.format === CATALOG_FORMAT) return cat;
+  const tnt = {};
+  for (const [n, list] of Object.entries(cat.tnt || {})) {
+    const ok = list.filter(c => c.trusted || isOfficial(c.url));
+    if (ok.length) tnt[n] = ok;
+  }
+  const others = (cat.others || []).filter(o => isOfficial(o.url));
+  return { ...cat, tnt, others, stale: true };
+}
+
+async function init() {
+  bind();
+  const [catalog, mine] = await Promise.all([store.get('catalog'), store.get('mine')]);
+  state.catalog = catalog ? upgradeCatalog(catalog) : null;
+  state.mine = Array.isArray(mine) ? mine : [];
+  render();
+  if (!state.catalog || state.catalog.stale || Date.now() - state.catalog.updatedAt > MAX_AGE) refreshCatalog(false);
+
+  if (false) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+    let hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (hadController) toast('Application mise à jour');
+      hadController = true;
+    });
+  }
+}
+
+init();
+
+</script>
+</body>
+</html>

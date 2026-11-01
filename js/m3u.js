@@ -50,7 +50,7 @@ export function parseM3U(text) {
     let needsHeaders = false;
     const pipe = url.indexOf('|');
     if (pipe > 0) { url = url.slice(0, pipe); needsHeaders = true; }
-    if (!/^https?:\/\//i.test(url)) { cur = null; continue; }
+    if (!/^(https?|rtsp|rtmp|rtp|udp):\/\//i.test(url)) { cur = null; continue; }
 
     const e = cur || { attrs: {}, name: '', group: '', needsHeaders: false };
     out.push({

@@ -2,7 +2,7 @@ import { TNT, matchCatalog, normalize, channelKey, isOfficial } from './catalog.
 import { parseM3U, isHlsStream, nameFromUrl, toM3U } from './m3u.js';
 import * as store from './store.js';
 
-const APP_VERSION = '1.1.0';
+const APP_VERSION = '1.1.1';
 const CATALOG_FORMAT = 3;          // à augmenter quand les règles du catalogue changent
 const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
 const DEFAULT_SOURCES = [
@@ -613,7 +613,10 @@ function setAddMsg(text, kind = '') {
 async function importText(text, label) {
   if (isHlsStream(text)) return null; // c'est un flux, pas une liste
   const entries = parseM3U(text).map(e => ({ ...e, group: e.group || label }));
-  if (!entries.length) throw new Error('Aucune chaîne trouvée dans ce fichier.');
+  if (!entries.length) {
+    if (/^\s*(rtsp|rtp|udp|rtmp):\/\//im.test(text)) throw new Error('les chaînes de cette liste utilisent un format (RTSP, RTP, UDP ou RTMP) qu\'aucun navigateur ne sait lire : ouvrez-la dans VLC');
+    throw new Error('Aucune chaîne trouvée dans ce fichier.');
+  }
   return addMine(entries);
 }
 
@@ -677,6 +680,12 @@ function bind() {
     e.preventDefault();
     const url = String(new FormData(e.target).get('url') || '').trim();
     if (!isSafeUrl(url)) { setAddMsg('Indiquez l\'adresse complète de la playlist.', 'error'); return; }
+    if (isHttpsPage && /^http:/i.test(url)) {
+      setAddMsg(/freebox/i.test(url)
+        ? 'La playlist de la Freebox ne peut pas être lue ici : elle est en http et ses chaînes utilisent le format RTSP, qu\'aucun navigateur ne lit. Ouvrez-la directement dans VLC, ou utilisez l\'application Free TV.'
+        : 'Adresse en http : Chrome bloque son téléchargement dans une application https. Ouvrez l\'adresse dans Chrome pour télécharger le fichier, puis utilisez « Choisir un fichier ».', 'error');
+      return;
+    }
     setAddMsg('Téléchargement de la playlist…');
     try {
       const text = await fetchText(url);

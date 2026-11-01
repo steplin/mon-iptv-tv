@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Lecteur IPTV personnel : chaînes de la TNT française et vos propres flux M3U/M3U8.">
+  <title>Mon IPTV TV</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4 5.3 5.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star-f" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z" fill="currentColor"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <header class="top">
+    <div class="brand">
+      <img src="icons/icon-192.png" alt="" width="30" height="30">
+      <h1>Mon IPTV TV</h1>
+    </div>
+    <div class="top-actions">
+      <button id="btnRefresh" class="icon-btn" type="button" aria-label="Actualiser le catalogue"><svg><use href="#i-refresh"/></svg></button>
+      <button id="btnAdd" class="icon-btn" type="button" aria-label="Ajouter un flux ou une playlist"><svg><use href="#i-plus"/></svg></button>
+      <button id="btnSettings" class="icon-btn" type="button" aria-label="Sources et réglages"><svg><use href="#i-gear"/></svg></button>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Rechercher une chaîne ou un numéro…" autocomplete="off" enterkeyhint="search" aria-label="Rechercher">
+    <nav class="tabs" role="tablist" aria-label="Catégories">
+      <button type="button" role="tab" data-tab="tnt" aria-selected="true">TNT</button>
+      <button type="button" role="tab" data-tab="plus" aria-selected="false">Plus</button>
+      <button type="button" role="tab" data-tab="mine" aria-selected="false">Mes flux</button>
+      <button type="button" role="tab" data-tab="fav" aria-selected="false">Favoris</button>
+    </nav>
+    <div class="subbar">
+      <p id="status" class="status" aria-live="polite"></p>
+      <select id="groupFilter" aria-label="Filtrer par groupe" hidden></select>
+    </div>
+  </div>
+
+  <main id="list" class="grid" aria-live="polite"></main>
+
+  <!-- Lecteur -->
+  <section id="player" class="player" hidden aria-label="Lecteur vidéo">
+    <div class="player-bar">
+      <button id="pClose" class="icon-btn" type="button" aria-label="Fermer le lecteur"><svg><use href="#i-back"/></svg></button>
+      <div class="p-title">
+        <strong id="pName"></strong>
+        <span id="pInfo"></span>
+      </div>
+      <button id="pFav" class="icon-btn star" type="button" aria-label="Ajouter aux favoris"><svg><use href="#i-star"/></svg></button>
+    </div>
+    <div class="video-wrap">
+      <video id="video" playsinline controls autoplay preload="auto"></video>
+      <div id="pMsg" class="p-msg" hidden></div>
+    </div>
+    <div class="player-actions">
+      <button id="pPrev" type="button">◀ Préc.</button>
+      <button id="pNext" type="button">Suiv. ▶</button>
+      <button id="pAlt" type="button">Autre source</button>
+      <button id="pExt" type="button">Ouvrir avec…</button>
+      <button id="pCopy" type="button">Copier le lien</button>
+    </div>
+  </section>
+
+  <!-- Ajouter -->
+  <dialog id="dlgAdd" class="sheet" aria-labelledby="addTitle">
+    <form method="dialog" class="sheet-head">
+      <h2 id="addTitle">Ajouter</h2>
+      <button class="icon-btn" value="close" aria-label="Fermer"><svg><use href="#i-x"/></svg></button>
+    </form>
+
+    <form id="formStream" class="card-form" autocomplete="off">
+      <h3>Un flux M3U8</h3>
+      <label>Nom de la chaîne<input name="name" required placeholder="Ex. : Ma chaîne locale"></label>
+      <label>Adresse du flux<input name="url" type="url" required inputmode="url" placeholder="https://…/playlist.m3u8"></label>
+      <label>Groupe (facultatif)<input name="group" placeholder="Ex. : Bretagne"></label>
+      <label>Associer à une chaîne TNT (facultatif)
+        <select name="tnt" id="tntSelect"><option value="">Non</option></select>
+      </label>
+      <button class="primary" type="submit">Ajouter le flux</button>
+    </form>
+
+    <form id="formPlaylist" class="card-form" autocomplete="off">
+      <h3>Une playlist M3U</h3>
+      <label>Adresse de la playlist<input name="url" type="url" inputmode="url" placeholder="https://…/liste.m3u"></label>
+      <button class="primary" type="submit">Importer depuis l'adresse</button>
+      <div class="or">ou</div>
+      <label class="file-btn">Choisir un fichier .m3u sur le téléphone
+        <input id="fileInput" type="file" accept=".m3u,.m3u8,audio/x-mpegurl,application/x-mpegurl,application/vnd.apple.mpegurl,text/plain">
+      </label>
+    </form>
+    <p id="addMsg" class="form-msg" aria-live="polite"></p>
+  </dialog>
+
+  <!-- Réglages -->
+  <dialog id="dlgSettings" class="sheet" aria-labelledby="setTitle">
+    <form method="dialog" class="sheet-head">
+      <h2 id="setTitle">Sources et réglages</h2>
+      <button class="icon-btn" value="close" aria-label="Fermer"><svg><use href="#i-x"/></svg></button>
+    </form>
+
+    <section class="card-form">
+      <h3>Listes publiques du catalogue</h3>
+      <p class="hint">L'application y cherche les flux des chaînes TNT et des autres chaînes françaises. Elle ne contient elle-même aucun flux.</p>
+      <ul id="sourceList" class="source-list"></ul>
+      <form id="formSource" class="inline-form">
+        <input name="url" type="url" inputmode="url" required placeholder="https://…/liste.m3u" aria-label="Adresse d'une liste publique">
+        <button type="submit">Ajouter</button>
+      </form>
+      <div class="row">
+        <button id="btnRefresh2" class="primary" type="button">Actualiser le catalogue</button>
+        <button id="btnResetSources" type="button">Sources par défaut</button>
+      </div>
+      <p id="catalogInfo" class="hint"></p>
+    </section>
+
+    <section class="card-form">
+      <h3>Mes flux</h3>
+      <div class="row">
+        <button id="btnExport" type="button">Exporter en .m3u</button>
+        <button id="btnClearMine" class="danger" type="button">Tout supprimer</button>
+      </div>
+    </section>
+
+    <section class="card-form">
+      <h3>À propos</h3>
+      <p class="hint">Mon IPTV TV lit uniquement des flux diffusés publiquement. Elle ne contourne ni DRM, ni abonnement, ni restriction d'accès : une chaîne dont le diffuseur ne publie pas de flux libre ne peut pas être lue ici. Vos ajouts et favoris restent sur ce téléphone.</p>
+      <p class="hint">Version <span id="appVersion"></span></p>
+    </section>
+  </dialog>
+
+  <!-- Chaîne sans flux -->
+  <dialog id="dlgInfo" class="sheet small" aria-labelledby="infoTitle">
+    <form method="dialog" class="sheet-head">
+      <h2 id="infoTitle"></h2>
+      <button class="icon-btn" value="close" aria-label="Fermer"><svg><use href="#i-x"/></svg></button>
+    </form>
+    <div class="card-form">
+      <p id="infoText"></p>
+      <div class="row">
+        <button id="infoAdd" class="primary" type="button">Associer mon propre flux</button>
+        <a id="infoSite" class="btn" target="_blank" rel="noopener">Site officiel</a>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

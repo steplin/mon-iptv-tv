@@ -2,7 +2,7 @@ import { TNT, matchCatalog, normalize, channelKey } from './catalog.js';
 import { parseM3U, isHlsStream, nameFromUrl, toM3U } from './m3u.js';
 import * as store from './store.js';
 
-const APP_VERSION = '1.0.1';
+const APP_VERSION = '1.0.2';
 const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
 const DEFAULT_SOURCES = [
   { url: 'https://iptv-org.github.io/iptv/countries/fr.m3u', frOnly: false },
@@ -107,7 +107,7 @@ function expandCands(cands) {
     const url = c.url.replace(/^http:/i, 'https:');
     if (known.has(url)) continue;
     known.add(url);
-    upgraded.push({ ...c, url, src: (c.src || hostOf(c.url)) + ' (https)' });
+    upgraded.push({ ...c, url, orig: c.url, src: (c.src || hostOf(c.url)) + ' (https)' });
   }
   return [...secure, ...upgraded, ...insecure];
 }
@@ -426,6 +426,7 @@ function showMsg(html, kind = 'info') {
 async function startCandidate() {
   stopStream();
   $('.video-wrap').classList.remove('failed');
+  state.failed = false;
   const token = state.token;
   const it = state.list[state.idx];
   const c = currentCandidate();
@@ -504,14 +505,23 @@ function failCandidate(reason) {
   }
   stopStream();
   $('.video-wrap').classList.add('failed');
-  const lastIsHttp = /^http:/i.test(currentCandidate()?.url || '');
+  state.failed = true;
   showMsg([
     el('strong', { text: 'Cette chaîne ne peut pas être lue dans l\'application.' }),
     el('ul', {}, state.errors.map(e => el('li', { text: e }))),
-    el('p', { text: lastIsHttp
-      ? 'Touchez « Ouvrir avec… » pour la regarder dans VLC (à installer depuis le Play Store si besoin).'
-      : 'Essayez « Ouvrir avec… » (VLC par exemple), une autre chaîne, ou actualisez le catalogue plus tard.' }),
+    el('p', { text: 'Le lecteur VLC n\'a pas ces restrictions de navigateur : il lit souvent ces flux sans problème.' }),
+    el('div', { class: 'row' },
+      el('button', { class: 'primary', type: 'button', text: '▶ Regarder dans VLC', onclick: openExternal })),
   ], 'error');
+}
+
+// Adresse envoyée à VLC : le flux d'origine (pas la variante https essayée par l'application).
+// Après un échec complet, on prend la meilleure source d'origine plutôt que la dernière essayée.
+function externalUrl() {
+  const it = state.list[state.idx];
+  if (!it) return null;
+  const c = state.failed ? (it.cands.find(x => !x.orig) || it.cands[0]) : currentCandidate();
+  return c ? (c.orig || c.url) : null;
 }
 
 function step(delta) {
@@ -521,22 +531,25 @@ function step(delta) {
 }
 
 function openExternal() {
-  const c = currentCandidate();
-  if (!c) return;
+  const url = externalUrl();
+  if (!url) return;
   if (/android/i.test(navigator.userAgent)) {
-    const u = new URL(c.url);
-    const type = /\.m3u8?(\?|$)/i.test(u.pathname + u.search) || !/\.(mp4|webm)$/i.test(u.pathname) ? 'application/x-mpegURL' : 'video/*';
-    location.href = `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=${u.protocol.slice(0, -1)};type=${type};end`;
+    // Ouvre directement VLC ; s'il n'est pas installé, Chrome affiche sa page du Play Store.
+    const u = new URL(url);
+    const store = encodeURIComponent('https://play.google.com/store/apps/details?id=org.videolan.vlc');
+    location.href = `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=${u.protocol.slice(0, -1)};`
+      + `package=org.videolan.vlc;type=video/*;S.title=${encodeURIComponent($('#pName').textContent)};`
+      + `S.browser_fallback_url=${store};end`;
   } else {
-    window.open(c.url, '_blank', 'noopener');
+    window.open(url, '_blank', 'noopener');
   }
 }
 
 async function copyLink() {
-  const c = currentCandidate();
-  if (!c) return;
-  try { await navigator.clipboard.writeText(c.url); toast('Lien du flux copié'); }
-  catch { prompt('Lien du flux :', c.url); }
+  const url = externalUrl();
+  if (!url) return;
+  try { await navigator.clipboard.writeText(url); toast('Lien du flux copié'); }
+  catch { prompt('Lien du flux :', url); }
 }
 
 // En paysage, les commandes s'effacent après quelques secondes sans toucher l'écran.

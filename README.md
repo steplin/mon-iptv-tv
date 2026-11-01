@@ -25,8 +25,8 @@ Les listes se modifient dans ⚙ « Sources et réglages ». Une chaîne dont le
 ni restriction d'accès. On peut y associer son propre flux (bouton « Associer mon propre flux »).
 
 Raisons possibles d'un échec de lecture, affichées dans le lecteur :
-- **CORS** : le serveur du flux refuse d'être lu depuis une page web → bouton « Ouvrir avec… » (VLC, par exemple) ;
-- **http** : un flux non sécurisé est bloqué par Chrome dans une application https → « Ouvrir avec… » ;
+- **CORS** : le serveur du flux refuse d'être lu depuis une page web → bouton « Regarder dans VLC » ;
+- **http** : un flux non sécurisé est bloqué par Chrome dans une application https (l'application essaie d'abord la même adresse en https) → VLC ;
 - **403 / 401** : accès refusé par le diffuseur (géo-restriction, jeton expiré) ;
 - **404** : adresse périmée → actualiser le catalogue.
 

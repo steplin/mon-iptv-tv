@@ -2,19 +2,38 @@ import { TNT, matchCatalog, normalize, channelKey, isOfficial } from './catalog.
 import { parseM3U, isHlsStream, nameFromUrl, toM3U } from './m3u.js';
 import * as store from './store.js';
 
-const APP_VERSION = '1.0.4';
-const CATALOG_FORMAT = 2;          // à augmenter quand les règles du catalogue changent
+const APP_VERSION = '1.1.0';
+const CATALOG_FORMAT = 3;          // à augmenter quand les règles du catalogue changent
 const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
 const DEFAULT_SOURCES = [
   { url: 'https://iptv-org.github.io/iptv/countries/fr.m3u', frOnly: false },
   { url: 'https://iptv-org.github.io/iptv/languages/fra.m3u', frOnly: false },
   { url: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8', frOnly: true },
+  // Chaînes gratuites officielles des plateformes (financées par la publicité) : toutes leurs
+  // entrées sont des flux de la plateforme, la liste est donc retenue en entier (« trusted »).
+  { url: 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr_rakuten.m3u', trusted: true, label: 'Rakuten TV' },
+  { url: 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr_pluto.m3u', trusted: true, label: 'Pluto TV' },
+  { url: 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr_samsung.m3u', trusted: true, label: 'Samsung TV Plus' },
+  { url: 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr_bfm.m3u', trusted: true, label: 'BFM régions' },
 ];
+const SOURCES_VERSION = 2;
 const MAX_AGE = 12 * 3600 * 1000;  // catalogue actualisé automatiquement au-delà de 12 h
 const PAGE = 240;                  // cartes affichées avant « Afficher plus »
 const LOAD_TIMEOUT = 20000;        // délai avant de passer à la source suivante
 
 const $ = (s, r = document) => r.querySelector(s);
+
+// Sources enregistrées : on ajoute les nouvelles sources par défaut apparues avec une mise à jour.
+function loadSources() {
+  const saved = store.pref('sources', null);
+  if (!saved) { store.setPref('sourcesVersion', SOURCES_VERSION); return DEFAULT_SOURCES.map(s => ({ ...s })); }
+  if (store.pref('sourcesVersion', 1) < SOURCES_VERSION) {
+    for (const d of DEFAULT_SOURCES) if (!saved.some(s => s.url === d.url)) saved.push({ ...d });
+    store.setPref('sources', saved);
+    store.setPref('sourcesVersion', SOURCES_VERSION);
+  }
+  return saved;
+}
 const isHttpsPage = location.protocol === 'https:';
 
 const state = {
@@ -25,7 +44,7 @@ const state = {
   catalog: null,
   mine: [],
   favs: new Set(store.pref('favs', [])),
-  sources: store.pref('sources', null) || DEFAULT_SOURCES.map(s => ({ ...s })),
+  sources: loadSources(),
   refreshing: false,
   // lecture
   list: [], idx: 0, cand: 0, hls: null, token: 0, timer: 0, errors: [],
@@ -118,7 +137,7 @@ function tntItems() {
   return TNT.map(ch => {
     const own = state.mine.filter(m => Number(m.tnt) === ch.num)
       .map(m => ({ url: m.url, label: m.name, src: 'mon flux' }));
-    const pub = (cat[ch.num] || []).filter(c => isOfficial(c.url));
+    const pub = (cat[ch.num] || []).filter(c => c.trusted || isOfficial(c.url));
     const cands = expandCands([...own, ...pub]);
     return {
       key: 'tnt:' + ch.num, kind: 'tnt', num: ch.num, name: ch.name, site: ch.site,
@@ -306,7 +325,7 @@ async function refreshCatalog(manual) {
     if (r.status === 'fulfilled') {
       const list = parseM3U(r.value);
       report.push({ url: s.url, ok: true, count: list.length });
-      for (const e of list) entries.push({ ...e, src: hostOf(s.url), frOnly: s.frOnly });
+      for (const e of list) entries.push({ ...e, group: e.group || s.label || '', src: s.label || hostOf(s.url), frOnly: s.frOnly, trusted: !!s.trusted });
     } else {
       report.push({ url: s.url, ok: false, error: r.reason?.message || 'erreur' });
     }
@@ -766,7 +785,7 @@ function upgradeCatalog(cat) {
   if (cat.format === CATALOG_FORMAT) return cat;
   const tnt = {};
   for (const [n, list] of Object.entries(cat.tnt || {})) {
-    const ok = list.filter(c => isOfficial(c.url));
+    const ok = list.filter(c => c.trusted || isOfficial(c.url));
     if (ok.length) tnt[n] = ok;
   }
   const others = (cat.others || []).filter(o => isOfficial(o.url));

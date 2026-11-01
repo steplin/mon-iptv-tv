@@ -106,7 +106,7 @@ export function matchCatalog(entries) {
   const seen = new Set();
 
   for (const e of entries) {
-    if (!isOfficial(e.url)) continue;
+    if (!(e.trusted ? /^https:/i.test(e.url) : isOfficial(e.url))) continue;
     const k = channelKey(e.name);
     const t = tvgKey(e.tvgId);
     let num = byAlias.get(k) ?? byAlias.get(t);
@@ -119,7 +119,7 @@ export function matchCatalog(entries) {
     if (num != null) {
       (tnt[num] ||= []);
       if (!tnt[num].some(c => c.url === e.url)) {
-        tnt[num].push({ url: e.url, label: e.name, src: e.src, score: scoreEntry(e, base) });
+        tnt[num].push({ url: e.url, label: e.name, src: e.src, trusted: !!e.trusted, score: scoreEntry(e, base) });
       }
       usedUrls.add(e.url);
       continue;

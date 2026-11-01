@@ -5,7 +5,7 @@ dont le flux est diffusé publiquement, et ses propres flux M3U / M3U8.
 
 - Les **25 chaînes nationales gratuites** dans l'ordre officiel (numérotation en vigueur depuis juin 2025, RMC Life au 25).
 - Lecture **dans l'application** (HLS / M3U8), avec passage automatique à la source suivante en cas d'échec.
-- Onglet **Plus** : autres chaînes françaises trouvées dans les listes publiques (régionales, locales…).
+- Onglet **Plus** : environ 200 chaînes gratuites officielles — France 24, TV5Monde, BFM régions, et les chaînes gratuites des plateformes Rakuten TV, Pluto TV et Samsung TV Plus — filtrables par plateforme.
 - **Mes flux** : ajout d'un flux M3U8, import d'une playlist M3U par adresse ou par fichier, export en `.m3u`.
 - Recherche par nom ou numéro, favoris, tout est enregistré sur le téléphone.
 - Fonctionne installée sur l'écran d'accueil ; les mises à jour publiées ici arrivent toutes seules au lancement suivant.
@@ -19,6 +19,7 @@ suivantes et y retrouve les chaînes par leur nom :
 - `https://iptv-org.github.io/iptv/countries/fr.m3u`
 - `https://iptv-org.github.io/iptv/languages/fra.m3u`
 - `https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8` (seules les chaînes françaises sont gardées)
+- les listes françaises de Rakuten TV, Pluto TV, Samsung TV Plus et BFM régions publiées par iptv-org (`streams/fr_*.m3u`), retenues en entier car elles ne contiennent que les flux de ces plateformes
 
 Seuls les flux **hébergés par les diffuseurs eux-mêmes** sont retenus (liste `OFFICIAL_DOMAINS` dans `js/catalog.js`) : ces listes contiennent aussi de nombreuses rediffusions non autorisées, sur des serveurs quelconques, qui sont écartées. Les listes se modifient dans ⚙ « Sources et réglages ». Une chaîne dont le diffuseur ne publie pas de flux libre
 (cas fréquent pour TF1, M6 et leurs chaînes sœurs) reste grisée : l'application ne contourne ni DRM, ni abonnement,

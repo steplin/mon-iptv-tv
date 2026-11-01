@@ -1,8 +1,9 @@
-import { TNT, matchCatalog, normalize, channelKey } from './catalog.js';
+import { TNT, matchCatalog, normalize, channelKey, isOfficial } from './catalog.js';
 import { parseM3U, isHlsStream, nameFromUrl, toM3U } from './m3u.js';
 import * as store from './store.js';
 
-const APP_VERSION = '1.0.3';
+const APP_VERSION = '1.0.4';
+const CATALOG_FORMAT = 2;          // à augmenter quand les règles du catalogue changent
 const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
 const DEFAULT_SOURCES = [
   { url: 'https://iptv-org.github.io/iptv/countries/fr.m3u', frOnly: false },
@@ -117,11 +118,12 @@ function tntItems() {
   return TNT.map(ch => {
     const own = state.mine.filter(m => Number(m.tnt) === ch.num)
       .map(m => ({ url: m.url, label: m.name, src: 'mon flux' }));
-    const cands = expandCands([...own, ...(cat[ch.num] || [])]);
+    const pub = (cat[ch.num] || []).filter(c => isOfficial(c.url));
+    const cands = expandCands([...own, ...pub]);
     return {
       key: 'tnt:' + ch.num, kind: 'tnt', num: ch.num, name: ch.name, site: ch.site,
       cands, search: normalize(ch.name) + ' ' + ch.aliases.join(' '),
-      sub: sourcesLabel(own.length + (cat[ch.num] || []).length),
+      sub: sourcesLabel(own.length + pub.length),
     };
   });
 }
@@ -321,7 +323,7 @@ async function refreshCatalog(manual) {
     return;
   }
   const cat = matchCatalog(entries);
-  state.catalog = { ...cat, updatedAt: Date.now(), report };
+  state.catalog = { ...cat, updatedAt: Date.now(), report, format: CATALOG_FORMAT };
   await store.set('catalog', state.catalog);
   render();
   renderSettings();
@@ -758,13 +760,26 @@ function bind() {
 
 /* ---------- Démarrage ---------- */
 
+// Catalogue enregistré par une version précédente : on retire tout de suite les flux non officiels
+// (pour que l'affichage soit juste dès l'ouverture) et on le reconstruit en arrière-plan.
+function upgradeCatalog(cat) {
+  if (cat.format === CATALOG_FORMAT) return cat;
+  const tnt = {};
+  for (const [n, list] of Object.entries(cat.tnt || {})) {
+    const ok = list.filter(c => isOfficial(c.url));
+    if (ok.length) tnt[n] = ok;
+  }
+  const others = (cat.others || []).filter(o => isOfficial(o.url));
+  return { ...cat, tnt, others, stale: true };
+}
+
 async function init() {
   bind();
   const [catalog, mine] = await Promise.all([store.get('catalog'), store.get('mine')]);
-  state.catalog = catalog || null;
+  state.catalog = catalog ? upgradeCatalog(catalog) : null;
   state.mine = Array.isArray(mine) ? mine : [];
   render();
-  if (!state.catalog || Date.now() - state.catalog.updatedAt > MAX_AGE) refreshCatalog(false);
+  if (!state.catalog || state.catalog.stale || Date.now() - state.catalog.updatedAt > MAX_AGE) refreshCatalog(false);
 
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     navigator.serviceWorker.register('sw.js').catch(() => {});
